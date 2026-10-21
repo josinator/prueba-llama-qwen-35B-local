@@ -12,9 +12,22 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Entity/'
+            - '../src/Domain/'
+            - '../src/Kernel.php'
             - '../tests/'
 
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Infrastructure\Middleware\SecurityHeadersListener:
+        tags: ['kernel.event_listener']
+
+    App\Infrastructure\Middleware\RateLimitingMiddleware:
+        tags: ['kernel.event_listener']
+
+    App\Infrastructure\EventListener\DomainEventListener:
+        tags: [
+            { name: 'kernel.event_listener', event: App\Domain\DomainEvent\BookCreatedEvent, method: onBookCreated },
+            { name: 'kernel.event_listener', event: App\Domain\DomainEvent\BookUpdatedEvent, method: onBookUpdated },
+        ]

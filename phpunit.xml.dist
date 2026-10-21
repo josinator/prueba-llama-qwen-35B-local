@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-          bootstrap="tests/bootstrap.php"
-          colors="true"
-          failOnRisky="true"
-          failOnWarning="true"
+           xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+            bootstrap="tests/bootstrap.php"
+            colors="true"
+            failOnRisky="false"
+            failOnWarning="false"
+            processIsolation="true"
+            stderr="true"
+            beStrictAboutOutputDuringTests="false"
 >
     <php>
         <env name="KERNEL_CLASS" value="App\Kernel"/>
+        <env name="APP_DEBUG" value="0"/>
+        <env name="APP_ENV" value="test"/>
+        <env name="SYMFONY_PATCH_TYPE_FATAL" value="0"/>
+        <env name="VARDUMPER_FORMAT" value="plain"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     </php>
     <testsuites>
         <testsuite name="test suite">

@@ -2,158 +2,115 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
-use App\Repository\BookRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Application\BookApplicationServiceInterface;
+use App\Application\DTO\CreateBookDTO;
+use App\Application\DTO\UpdateBookDTO;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api')]
-final class BookController
+#[Route('/api/books', name: 'app_book_')]
+final class BookController extends AbstractController
 {
-    private array $requestLog = [];
-
     public function __construct(
-        private readonly RequestStack $requestStack,
-    ) {
-    }
+        private BookApplicationServiceInterface $bookService,
+    ) {}
 
-    #[Route('/books', name: 'app_books_post', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {
-        $this->enforceRateLimit($request);
-
-        $data = json_decode($request->getContent(), true);
-
-        if (!isset($data['title']) || !isset($data['author'])) {
-            return new JsonResponse(['error' => 'Title and author are required'], Response::HTTP_BAD_REQUEST);
-        }
-
-        $book = new Book();
-        $book->setTitle($data['title']);
-        $book->setAuthor($data['author']);
-        if (isset($data['description'])) {
-            $book->setDescription($data['description']);
-        }
-
-        $entityManager->persist($book);
-        $entityManager->flush();
-
-        return $this->jsonResponse($book->toArray(['book:read']), Response::HTTP_CREATED);
-    }
-
-    #[Route('/books/{id}', name: 'app_books_get_one', methods: ['GET'])]
-    public function show(Book $book): JsonResponse
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request) {
-            $this->enforceRateLimit($request);
-
-            $request->headers->set('X-Content-Type-Options', 'nosniff');
-            $request->headers->set('X-Frame-Options', 'DENY');
-            $request->headers->set('X-XSS-Protection', '1; mode=block');
-            $request->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
-            $request->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-        }
-
-        return new JsonResponse($book->toArray(['book:read']));
-    }
-
-    #[Route('/books', name: 'app_books_get_all', methods: ['GET'])]
     #[Cache(smaxage: 60)]
-    public function list(BookRepository $bookRepository): JsonResponse
+    #[Route('', name: 'list', methods: ['GET'])]
+    public function list(): JsonResponse
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request) {
-            $this->enforceRateLimit($request);
-
-            $request->headers->set('X-Content-Type-Options', 'nosniff');
-            $request->headers->set('X-Frame-Options', 'DENY');
-            $request->headers->set('X-XSS-Protection', '1; mode=block');
-            $request->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
-            $request->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-        }
-
-        $books = $bookRepository->findAll();
-        $data = [];
-        
-        foreach ($books as $book) {
-            $data[] = $book->toArray(['book:read']);
-        }
-
-        return new JsonResponse($data);
+        $books = $this->bookService->listBooks();
+        return $this->json(array_map(fn($b) => $this->serializeBook($b), $books));
     }
 
-    #[Route('/books/{id}', name: 'app_books_put', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, Book $book): JsonResponse
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(string $id): JsonResponse
     {
-        $this->enforceRateLimit($request);
+        $book = $this->bookService->getBook($id);
+        if (!$book) {
+            return $this->json(['error' => 'Book not found'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($this->serializeBook($book));
+    }
 
-        $request->headers->set('X-Content-Type-Options', 'nosniff');
-        $request->headers->set('X-Frame-Options', 'DENY');
-        $request->headers->set('X-XSS-Protection', '1; mode=block');
-        $request->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
-        $request->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-
+    #[Route('', name: 'create', methods: ['POST'])]
+    public function create(Request $request): JsonResponse
+    {
         $data = json_decode($request->getContent(), true);
+        
+        if (!is_array($data)) {
+            return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
+        }
+        
+        $dto = CreateBookDTO::fromArray($data);
 
-        if (!empty($data['title'])) {
-            $book->setTitle($data['title']);
+        $validationErrors = $dto->validate();
+        if ($validationErrors) {
+            $violations = [];
+            foreach ($validationErrors as $field => $messages) {
+                $violations[] = [
+                    'field' => $field,
+                    'message' => $messages[0],
+                ];
+            }
+            return $this->json(['violations' => $violations], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (!empty($data['author'])) {
-            $book->setAuthor($data['author']);
+        try {
+            $book = $this->bookService->createBook($dto);
+            return $this->json($this->serializeBook($book), Response::HTTP_CREATED);
+        } catch (\DomainException $e) {
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
         }
-
-        if (array_key_exists('description', $data)) {
-            $book->setDescription($data['description']);
-        }
-
-        $entityManager->flush();
-
-        return new JsonResponse($book->toArray(['book:read']));
     }
 
-    private function jsonResponse(array $data, int $status = Response::HTTP_OK): JsonResponse
+    #[Route('/{id}', name: 'update', methods: ['PUT'])]
+    public function update(Request $request, string $id): JsonResponse
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request) {
-            $request->headers->set('X-Content-Type-Options', 'nosniff');
-            $request->headers->set('X-Frame-Options', 'DENY');
-            $request->headers->set('X-XSS-Protection', '1; mode=block');
-            $request->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
-            $request->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+        $data = json_decode($request->getContent(), true);
+        
+        if (!is_array($data)) {
+            return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
+        }
+        
+        $dto = UpdateBookDTO::fromArray($data);
+
+        $validationErrors = $dto->validate();
+        if ($validationErrors) {
+            $violations = [];
+            foreach ($validationErrors as $field => $messages) {
+                $violations[] = [
+                    'field' => $field,
+                    'message' => $messages[0],
+                ];
+            }
+            return $this->json(['violations' => $violations], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return new JsonResponse($data, $status);
+        try {
+            $book = $this->bookService->updateBook($id, $dto);
+            if (!$book) {
+                return $this->json(['error' => 'Book not found'], Response::HTTP_NOT_FOUND);
+            }
+            return $this->json($this->serializeBook($book));
+        } catch (\DomainException $e) {
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
+        }
     }
 
-    private function enforceRateLimit(Request $request): void
+    private function serializeBook(object $book): array
     {
-        $ip = $request->getClientIp();
-        $currentTime = microtime(true);
-        $window = 60;
-
-        if (!isset($this->requestLog[$ip])) {
-            $this->requestLog[$ip] = [];
-        }
-
-        $this->requestLog[$ip] = array_values(array_filter(
-            $this->requestLog[$ip],
-            fn(float $timestamp) => ($currentTime - $timestamp) < $window
-        ));
-
-        if (count($this->requestLog[$ip]) >= 100) {
-            throw new \Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException(
-                $window,
-                'Demasiadas solicitudes. Inténtalo nuevamente en un minuto.',
-            );
-        }
-
-        $this->requestLog[$ip][] = $currentTime;
+        return [
+            'id' => $book->getId(),
+            'title' => $book->getTitle()->value,
+            'author' => $book->getAuthor(),
+            'description' => $book->getDescription(),
+            'createdAt' => $book->getCreatedAt()->format('Y-m-d\TH:i:sP'),
+            'updatedAt' => $book->getUpdatedAt()->format('Y-m-d\TH:i:sP'),
+        ];
     }
 }

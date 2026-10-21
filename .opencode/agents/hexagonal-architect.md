@@ -35,6 +35,7 @@ Antes de aprobar cualquier cambio, verifica:
 3. **NUNCA** pongas lógica de negocio en Controllers
 4. **SIEMPRE** usa DTOs para datos de entrada/salida
 5. **SIEMPRE** valida datos en el DTO o en el Service
+6. **Tests PHPUnit** — Usa implementaciones `InMemory` de los repositorios en `tests/Infrastructure/Repository/`. NUNCA uses elementos de la capa de infraestructura (Doctrine, Symfony Kernel, etc.) en tests de PHPUnit. Los tests deben ser puramente de aplicación/dominio.
 
 ## Referencias
 
