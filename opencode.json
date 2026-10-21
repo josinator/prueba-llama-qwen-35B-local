@@ -2,18 +2,24 @@
   "$schema": "https://opencode.ai/config.json",
   "provider": {
     "llamacpp": {
-      "npm": "@ai-sdk/openai-compatible",
       "options": {
         "baseURL": "http://127.0.0.1:8085/v1",
         "apiKey": "no-key"
       },
       "models": {
         "qwen35-35b": {
-          "name": "Qwen 35B Local",
-          "supportsToolCalls": true
+          "name": "Qwen 35B Local"
         }
       }
     }
   },
-  "model": "llamacpp/qwen35-35b"
+  "model": "llamacpp/qwen35-35b",
+  "skills": {
+    "paths": [
+      ".opencode/skills/*"
+    ]
+  },
+  "agent": {
+    "default": "hexagonal-architect"
+  }
 }
