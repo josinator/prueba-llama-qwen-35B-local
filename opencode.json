@@ -19,7 +19,5 @@
       ".opencode/skills/*"
     ]
   },
-  "agent": {
-    "default": "hexagonal-architect"
-  }
+  "default_agent": "hexagonal-architect"
 }

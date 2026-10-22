@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\ValueObject;
 
@@ -15,13 +17,13 @@ readonly class Title
         }
     }
 
-    public function hash(): string
-    {
-        return strtolower(md5(trim($this->value)));
-    }
-
     public function __toString(): string
     {
         return $this->value;
+    }
+
+    public function hash(): string
+    {
+        return strtolower(md5(trim($this->value)));
     }
 }

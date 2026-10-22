@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
@@ -12,7 +14,8 @@ class BookRepository implements BookRepositoryInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-    ) {}
+    ) {
+    }
 
     public function save(DomainBook $book): void
     {
@@ -41,7 +44,7 @@ class BookRepository implements BookRepositoryInterface
     public function findAll(): array
     {
         $doctrineBooks = $this->em->getRepository(DoctrineBook::class)->findAll();
-        return array_map(fn(DoctrineBook $db) => $this->toDomain($db), $doctrineBooks);
+        return array_map(fn (DoctrineBook $db) => $this->toDomain($db), $doctrineBooks);
     }
 
     /** @return DomainBook[] */
@@ -49,8 +52,8 @@ class BookRepository implements BookRepositoryInterface
     {
         $doctrineBooks = $this->em->getRepository(DoctrineBook::class)
             ->findBy(['titleHash' => $titleHash]);
-        
-        return array_map(fn(DoctrineBook $db) => $this->toDomain($db), $doctrineBooks);
+
+        return array_map(fn (DoctrineBook $db) => $this->toDomain($db), $doctrineBooks);
     }
 
     private function toDomain(DoctrineBook $doctrine): DomainBook

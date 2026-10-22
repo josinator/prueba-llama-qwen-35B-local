@@ -113,3 +113,16 @@ db-dump: ## Exporta la base de datos a archivo SQL
 # --- Test ---
 test: ## Ejecuta las pruebas unitarias
 	docker compose exec $(PHP_SERVICE) php bin/phpunit --configuration phpunit.xml.dist
+
+# --- Code Quality ---
+phpstan: ## Ejecutar PHPStan (análisis estático)
+	docker compose exec $(PHP_SERVICE) sh -c "php ./vendor/bin/phpstan analyse --ansi"
+
+cs-fixer: ## Ejecutar PHP-CS-Fixer (corrige estilo)
+	docker compose exec $(PHP_SERVICE) sh -c "php ./vendor/bin/php-cs-fixer fix --ansi"
+
+cs-fixer-dry: ## Ejecutar PHP-CS-Fixer (solo verifica, sin corregir)
+	docker compose exec $(PHP_SERVICE) sh -c "php ./vendor/bin/php-cs-fixer fix --dry-run --diff --ansi"
+
+quality: ## Ejecutar PHPStan + PHP-CS-Fixer (dry-run)
+	docker compose exec $(PHP_SERVICE) sh -c "php ./vendor/bin/php-cs-fixer fix --dry-run --diff --ansi && php ./vendor/bin/phpstan analyse --ansi"

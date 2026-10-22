@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Application\BookApplicationServiceInterface;
 use App\Application\DTO\CreateBookDTO;
 use App\Application\DTO\UpdateBookDTO;
+use App\Domain\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,14 +20,15 @@ final class BookController extends AbstractController
 {
     public function __construct(
         private BookApplicationServiceInterface $bookService,
-    ) {}
+    ) {
+    }
 
     #[Cache(smaxage: 60)]
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(): JsonResponse
     {
         $books = $this->bookService->listBooks();
-        return $this->json(array_map(fn($b) => $this->serializeBook($b), $books));
+        return $this->json(array_map(fn (Book $b) => $this->serializeBook($b), $books));
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
@@ -41,11 +45,11 @@ final class BookController extends AbstractController
     public function create(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        
+
         if (!is_array($data)) {
             return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
         }
-        
+
         $dto = CreateBookDTO::fromArray($data);
 
         $validationErrors = $dto->validate();
@@ -72,11 +76,11 @@ final class BookController extends AbstractController
     public function update(Request $request, string $id): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        
+
         if (!is_array($data)) {
             return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
         }
-        
+
         $dto = UpdateBookDTO::fromArray($data);
 
         $validationErrors = $dto->validate();
@@ -102,6 +106,11 @@ final class BookController extends AbstractController
         }
     }
 
+    /**
+     * @param Book $book
+     *
+     * @return array<string, mixed>
+     */
     private function serializeBook(object $book): array
     {
         return [

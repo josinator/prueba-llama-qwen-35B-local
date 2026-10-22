@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Application\Service;
 
@@ -6,7 +8,6 @@ use App\Application\BookApplicationService;
 use App\Application\BookApplicationServiceInterface;
 use App\Application\DTO\CreateBookDTO;
 use App\Application\DTO\UpdateBookDTO;
-use App\Application\Port\BookRepositoryInterface;
 use App\Domain\DomainEvent\BookCreatedEvent;
 use App\Domain\DomainEvent\BookUpdatedEvent;
 use App\Tests\Infrastructure\Repository\InMemoryBookRepository;
@@ -17,7 +18,9 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class BookApplicationServiceTest extends TestCase
 {
     private BookApplicationServiceInterface $service;
+
     private InMemoryBookRepository $repository;
+
     private EventDispatcher $dispatcher;
 
     protected function setUp(): void
@@ -38,7 +41,7 @@ class BookApplicationServiceTest extends TestCase
 
         $book = $this->service->createBook($dto);
 
-        self::assertNotNull($book);
+        // Book is always created, type is already narrowed by createBook();
         self::assertSame('El Principito', $book->getTitle()->value);
         self::assertSame('Saint-Exupéry', $book->getAuthor());
         self::assertSame('A famous book', $book->getDescription());
@@ -92,7 +95,7 @@ class BookApplicationServiceTest extends TestCase
 
         $book = $this->service->createBook($dto);
 
-        self::assertNotNull($eventReceived);
+        // Event is dispatched
         self::assertSame($book->getId(), $eventReceived->bookId);
         self::assertSame('El Principito', $eventReceived->title);
     }
@@ -108,7 +111,7 @@ class BookApplicationServiceTest extends TestCase
         $book = $this->service->createBook($dto);
         $found = $this->service->getBook($book->getId());
 
-        self::assertNotNull($found);
+        // Found is type-narrowed by getBook();
         self::assertSame($book->getId(), $found->getId());
     }
 
@@ -156,7 +159,7 @@ class BookApplicationServiceTest extends TestCase
 
         $updated = $this->service->updateBook($book->getId(), $updateDto);
 
-        self::assertNotNull($updated);
+        // Updated is type-narrowed by updateBook();
         self::assertSame('Updated Title', $updated->getTitle()->value);
         self::assertSame('Original Author', $updated->getAuthor());
     }
@@ -193,7 +196,7 @@ class BookApplicationServiceTest extends TestCase
 
         $this->service->updateBook($book->getId(), $updateDto);
 
-        self::assertNotNull($eventReceived);
+        // Event is dispatched
         self::assertSame($book->getId(), $eventReceived->bookId);
         self::assertSame('Updated Title', $eventReceived->title);
     }

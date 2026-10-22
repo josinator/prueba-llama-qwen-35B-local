@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Application\DTO;
 
 use App\Application\DTO\CreateBookDTO;
-use App\Application\DTO\UpdateBookDTO;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

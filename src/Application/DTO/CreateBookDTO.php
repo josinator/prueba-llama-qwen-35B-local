@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Application\DTO;
 
@@ -8,8 +10,12 @@ readonly class CreateBookDTO
         public string $title,
         public string $author,
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(
@@ -19,7 +25,7 @@ readonly class CreateBookDTO
         );
     }
 
-    /** @return array<string, string[]> */
+    /** @return array<string, list<string>> */
     public function validate(): array
     {
         $errors = [];

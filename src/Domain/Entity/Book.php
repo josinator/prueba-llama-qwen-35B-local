@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
@@ -7,10 +9,15 @@ use App\Domain\ValueObject\Title;
 final class Book
 {
     private string $id;
+
     private Title $title;
+
     private string $author;
+
     private ?string $description;
+
     private \DateTimeImmutable $createdAt;
+
     private \DateTimeImmutable $updatedAt;
 
     public function __construct(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Application;
 
@@ -16,7 +18,8 @@ final class BookApplicationService implements BookApplicationServiceInterface
     public function __construct(
         private BookRepositoryInterface $repository,
         private EventDispatcherInterface $dispatcher,
-    ) {}
+    ) {
+    }
 
     public function listBooks(): array
     {
