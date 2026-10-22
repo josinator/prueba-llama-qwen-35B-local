@@ -166,12 +166,48 @@ make graphify-report
 2. Update vault notes with decisions and patterns used
 3. Run `graphify update .` after code changes
 
+### Mandadory Dual-Agent Validation Gate
+
+Before ANY commit, the code MUST pass validation from BOTH agents. This is a hard gate — no exceptions.
+
+**Process:**
+1. After writing or modifying code, launch BOTH agents in parallel:
+   - `hexagonal-architect` — review architecture, SOLID, layer separation, dependency inversion, ports/adapters, DTOs
+   - `code-quality` — run PHPStan Level 7, PHP-CS-Fixer, validate typing, fix imports
+2. If EITHER agent reports violations:
+   - Fix ALL reported issues
+   - Re-run BOTH agents
+   - Repeat until BOTH agents pass with zero violations
+3. Only when BOTH agents report clean results can you proceed to commit
+
+**Strict Rules:**
+- NEVER commit code that fails either agent's review
+- NEVER skip agent validation, even under time pressure
+- NEVER ignore violations "with low priority" — all violations must be fixed
+- If an agent reports a false positive, document the justification in a comment AND get agent confirmation before skipping
+- Both agents must review ALL modified files, not just new ones
+- Run `make quality` (PHPStan + CS-Fixer) inside Docker as a preliminary check, but agent review is still mandatory
+- After fixing issues, always re-run both agents to ensure no regressions were introduced
+
+**Common violation patterns that agents catch:**
+- Domain layer depending on Infrastructure (EntityManager, Doctrine)
+- Controllers with business logic
+- Injecting concrete classes instead of interfaces
+- Missing type declarations (PHPStan Level 7)
+- Static mutable state in services
+- SRP violations (controllers with multiple unrelated responsibilities)
+- Memory issues (loading all records for aggregation)
+- Incomplete repository implementations (missing interface methods)
+
 ### Before Committing
 
-1. Fix code style: `make cs-fixer`
-2. Fix static analysis: `make phpstan`
-3. Verify pre-commit hook passes (runs automatically)
-4. Update graph: `graphify update .`
+1. Run both agents — hexagonal-architect AND code-quality
+2. Fix ALL violations from both agents
+3. Re-run both agents until both pass clean
+4. Fix code style: `make cs-fixer`
+5. Fix static analysis: `make phpstan`
+6. Verify pre-commit hook passes (runs automatically)
+7. Update graph: `graphify update .`
 
 ## Docker Commands
 

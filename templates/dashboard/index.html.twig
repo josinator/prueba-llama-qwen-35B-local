@@ -1,0 +1,410 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Book Manager{% endblock %}
+
+{% block stylesheets %}
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+    .dashboard { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+    .sidebar { background: #1a1a2e; color: #fff; padding: 20px; }
+    .sidebar h1 { font-size: 1.5rem; margin-bottom: 30px; }
+    .sidebar nav a { display: block; padding: 10px 15px; color: #aaa; text-decoration: none; border-radius: 5px; margin-bottom: 5px; }
+    .sidebar nav a:hover, .sidebar nav a.active { background: #16213e; color: #fff; }
+    .main { padding: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .header h2 { font-size: 1.8rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .stat-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .stat-card .value { font-size: 2rem; font-weight: bold; color: #1a1a2e; }
+    .stat-card .label { color: #666; font-size: 0.9rem; margin-top: 5px; }
+    .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+    .search-bar input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+    .search-bar button { padding: 10px 20px; background: #1a1a2e; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9rem; }
+    .btn-primary { background: #1a1a2e; color: #fff; }
+    .btn-success { background: #28a745; color: #fff; }
+    .btn-danger { background: #dc3545; color: #fff; }
+    .btn-warning { background: #ffc107; color: #000; }
+    .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+    .books-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .books-table table { width: 100%; border-collapse: collapse; }
+    .books-table th, .books-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+    .books-table th { background: #f8f9fa; font-weight: 600; }
+    .books-table tr:hover { background: #f8f9fa; }
+    .actions { display: flex; gap: 5px; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; }
+    .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+    .modal { background: #fff; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; }
+    .modal h3 { margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+    .notification { position: fixed; top: 20px; right: 20px; padding: 15px 20px; border-radius: 5px; color: #fff; z-index: 2000; animation: slideIn 0.3s ease; }
+    .notification.success { background: #28a745; }
+    .notification.error { background: #dc3545; }
+    .notification.info { background: #17a2b8; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .pagination { display: flex; gap: 5px; justify-content: center; margin-top: 15px; }
+    .pagination button { padding: 8px 12px; border: 1px solid #ddd; background: #fff; border-radius: 5px; cursor: pointer; }
+    .pagination button.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+    .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .empty-state { text-align: center; padding: 40px; color: #666; }
+    .status-indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+    .status-connected { background: #28a745; }
+    .status-disconnected { background: #dc3545; }
+    .last-updated { color: #666; font-size: 0.85rem; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <h1>📚 Book Manager</h1>
+        <nav>
+            <a href="#" class="active" data-view="dashboard">Dashboard</a>
+        </nav>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
+            <small style="color: #666;">SSE Status:</small><br>
+            <span id="sse-status"><span class="status-indicator status-disconnected"></span>Disconnected</span>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="header">
+            <h2>Dashboard</h2>
+            <span class="last-updated" id="last-updated">Last updated: --</span>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <div class="value" id="total-books">--</div>
+                <div class="label">Total Books</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="created-today">--</div>
+                <div class="label">Created Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="updated-today">--</div>
+                <div class="label">Updated Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="with-description">--</div>
+                <div class="label">With Description</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="without-description">--</div>
+                <div class="label">Without Description</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by title or description...">
+            <button onclick="searchBooks()">Search</button>
+            <button class="btn btn-success" onclick="openCreateModal()">+ New Book</button>
+        </div>
+
+        <div class="books-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Description</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="books-tbody">
+                    <tr><td colspan="6" class="empty-state">Loading books...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="pagination"></div>
+    </main>
+</div>
+
+<div class="modal-overlay" id="create-modal">
+    <div class="modal">
+        <h3 id="modal-title">Create New Book</h3>
+        <form id="book-form">
+            <input type="hidden" id="book-id">
+            <div class="form-group">
+                <label for="book-title">Title *</label>
+                <input type="text" id="book-title" required>
+            </div>
+            <div class="form-group">
+                <label for="book-author">Author *</label>
+                <input type="text" id="book-author" required>
+            </div>
+            <div class="form-group">
+                <label for="book-description">Description</label>
+                <textarea id="book-description"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="delete-modal">
+    <div class="modal">
+        <h3>Delete Book</h3>
+        <p>Are you sure you want to delete "<span id="delete-book-title"></span>"?</p>
+        <div class="modal-actions">
+            <button class="btn" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn btn-danger" id="confirm-delete">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentPage = 1;
+let totalPages = 1;
+let sseEventSource = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+    loadBooks();
+    initSSE();
+    document.getElementById('book-form').addEventListener('submit', handleSubmit);
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchBooks();
+    });
+});
+
+async function loadStats() {
+    try {
+        const res = await fetch('/dashboard/api/stats');
+        const data = await res.json();
+        document.getElementById('total-books').textContent = data.totalBooks;
+        document.getElementById('created-today').textContent = data.createdToday;
+        document.getElementById('updated-today').textContent = data.updatedToday;
+        document.getElementById('with-description').textContent = data.booksWithDescription;
+        document.getElementById('without-description').textContent = data.booksWithoutDescription;
+        document.getElementById('last-updated').textContent = 'Last updated: ' + new Date().toLocaleTimeString();
+    } catch (err) {
+        console.error('Failed to load stats:', err);
+    }
+}
+
+async function loadBooks(page = 1) {
+    try {
+        const res = await fetch(`/dashboard/api/search?page=${page}&limit=10`);
+        const data = await res.json();
+        currentPage = data.page;
+        totalPages = data.totalPages;
+        renderBooks(data.books);
+        renderPagination();
+    } catch (err) {
+        console.error('Failed to load books:', err);
+    }
+}
+
+async function searchBooks() {
+    const query = document.getElementById('search-input').value.trim();
+    try {
+        const res = await fetch(`/dashboard/api/search?q=${encodeURIComponent(query)}&page=1&limit=100`);
+        const data = await res.json();
+        currentPage = 1;
+        totalPages = 1;
+        renderBooks(data.books);
+        renderPagination();
+    } catch (err) {
+        console.error('Search failed:', err);
+    }
+}
+
+function renderBooks(books) {
+    const tbody = document.getElementById('books-tbody');
+    if (books.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No books found</td></tr>';
+        return;
+    }
+    tbody.innerHTML = books.map(book => `
+        <tr>
+            <td>${escapeHtml(book.title)}</td>
+            <td>${escapeHtml(book.author)}</td>
+            <td>${escapeHtml(book.description || '')}</td>
+            <td>${formatDate(book.createdAt)}</td>
+            <td>${formatDate(book.updatedAt)}</td>
+            <td class="actions">
+                <button class="btn btn-sm btn-warning" onclick="openEditModal('${book.id}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="openDeleteModal('${book.id}', '${escapeHtml(book.title)}')">Delete</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderPagination() {
+    const pagination = document.getElementById('pagination');
+    if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+    }
+    let html = '';
+    html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="loadBooks(${currentPage - 1})">Prev</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="${i === currentPage ? 'active' : ''}" onclick="loadBooks(${i})">${i}</button>`;
+    }
+    html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="loadBooks(${currentPage + 1})">Next</button>`;
+    pagination.innerHTML = html;
+}
+
+function initSSE() {
+    sseEventSource = new EventSource('/dashboard/sse');
+    
+    const statusEl = document.getElementById('sse-status');
+    statusEl.innerHTML = '<span class="status-indicator status-connected"></span>Connected';
+    
+    sseEventSource.onopen = () => {
+        console.log('SSE connected');
+    };
+    
+    sseEventSource.addEventListener('book.created', (e) => {
+        const data = JSON.parse(e.data);
+        showNotification(`New book added: ${data.title}`, 'success');
+        loadBooks(currentPage);
+        loadStats();
+    });
+    
+    sseEventSource.addEventListener('book.updated', (e) => {
+        const data = JSON.parse(e.data);
+        showNotification(`Book updated: ${data.title}`, 'info');
+        loadBooks(currentPage);
+        loadStats();
+    });
+    
+    sseEventSource.addEventListener('book.deleted', (e) => {
+        const data = JSON.parse(e.data);
+        showNotification(`Book deleted: ${data.title}`, 'error');
+        loadBooks(currentPage);
+        loadStats();
+    });
+    
+    sseEventSource.onerror = () => {
+        const statusEl = document.getElementById('sse-status');
+        statusEl.innerHTML = '<span class="status-indicator status-disconnected"></span>Disconnected';
+        sseEventSource.close();
+        setTimeout(initSSE, 5000);
+    };
+}
+
+async function handleSubmit(e) {
+    e.preventDefault();
+    const id = document.getElementById('book-id').value;
+    const title = document.getElementById('book-title').value.trim();
+    const author = document.getElementById('book-author').value.trim();
+    const description = document.getElementById('book-description').value.trim() || null;
+    
+    const body = { title, author, description };
+    
+    try {
+        let res;
+        if (id) {
+            res = await fetch(`/dashboard/api/books/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+        } else {
+            res = await fetch('/dashboard/api/books', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+        }
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            closeModal();
+            showNotification(id ? 'Book updated successfully' : 'Book created successfully', 'success');
+            loadBooks(currentPage);
+            loadStats();
+        } else {
+            showNotification(data.error || 'Error saving book', 'error');
+        }
+    } catch (err) {
+        showNotification('Error saving book', 'error');
+    }
+}
+
+function openCreateModal() {
+    document.getElementById('modal-title').textContent = 'Create New Book';
+    document.getElementById('book-id').value = '';
+    document.getElementById('book-form').reset();
+    document.getElementById('create-modal').classList.add('active');
+}
+
+function openEditModal(id) {
+    fetch(`/dashboard/api/books/${id}`)
+        .then(res => res.json())
+        .then(book => {
+            document.getElementById('modal-title').textContent = 'Edit Book';
+            document.getElementById('book-id').value = book.id;
+            document.getElementById('book-title').value = book.title;
+            document.getElementById('book-author').value = book.author;
+            document.getElementById('book-description').value = book.description || '';
+            document.getElementById('create-modal').classList.add('active');
+        });
+}
+
+function closeModal() {
+    document.getElementById('create-modal').classList.remove('active');
+}
+
+function openDeleteModal(id, title) {
+    document.getElementById('delete-book-title').textContent = title;
+    document.getElementById('confirm-delete').onclick = () => deleteBook(id);
+    document.getElementById('delete-modal').classList.add('active');
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').classList.remove('active');
+}
+
+async function deleteBook(id) {
+    try {
+        const res = await fetch(`/dashboard/api/books/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            closeDeleteModal();
+            showNotification('Book deleted successfully', 'success');
+            loadBooks(currentPage);
+            loadStats();
+        } else {
+            showNotification('Error deleting book', 'error');
+        }
+    } catch (err) {
+        showNotification('Error deleting book', 'error');
+    }
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '--';
+    return new Date(dateStr).toLocaleDateString() + ' ' + new Date(dateStr).toLocaleTimeString();
+}
+</script>
+{% endblock %}
