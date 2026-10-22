@@ -1,0 +1,182 @@
+{
+  ".opencode/opencode.json": {
+    "mtime": 1792653940.1209753,
+    "ast_hash": "abcc8b9dcd80bca5f9dde6d9f0c3ae79",
+    "semantic_hash": "abcc8b9dcd80bca5f9dde6d9f0c3ae79"
+  },
+  ".opencode/plugins/graphify.js": {
+    "mtime": 1792653940.1208737,
+    "ast_hash": "3ea725724bc8ebe483c9f13d6aa1124f",
+    "semantic_hash": "3ea725724bc8ebe483c9f13d6aa1124f"
+  },
+  ".opencode/tools/generate-graph.sh": {
+    "mtime": 1792573767.5602593,
+    "ast_hash": "0e7d09e6318f82b92da8d08dfa9431c9",
+    "semantic_hash": "0e7d09e6318f82b92da8d08dfa9431c9"
+  },
+  ".opencode/tools/knowledge-graph.js": {
+    "mtime": 1792579152.727715,
+    "ast_hash": "6463c2ed8930a664035dd238cd6f6275",
+    "semantic_hash": "6463c2ed8930a664035dd238cd6f6275"
+  },
+  ".php-cs-fixer.dist.php": {
+    "mtime": 1792652233.2832882,
+    "ast_hash": "580c7ebc68a26c8430c1536ef9197559",
+    "semantic_hash": "580c7ebc68a26c8430c1536ef9197559"
+  },
+  "bin/console": {
+    "mtime": 1792504078.7548387,
+    "ast_hash": "f23ac4e494f1eb6559b619c32371c156",
+    "semantic_hash": "f23ac4e494f1eb6559b619c32371c156"
+  },
+  "bin/phpunit": {
+    "mtime": 1792504078.7572026,
+    "ast_hash": "1e575fb6757b79b7048ba340f941c61d",
+    "semantic_hash": "1e575fb6757b79b7048ba340f941c61d"
+  },
+  "composer.json": {
+    "mtime": 1792652233.284671,
+    "ast_hash": "e2dc8e658fa5c33820fa60f334f107c0",
+    "semantic_hash": "e2dc8e658fa5c33820fa60f334f107c0"
+  },
+  "config/bundles.php": {
+    "mtime": 1792504078.7576385,
+    "ast_hash": "33a3f50a31ad48a186e083e9552ced06",
+    "semantic_hash": "33a3f50a31ad48a186e083e9552ced06"
+  },
+  "config/preload.php": {
+    "mtime": 1792504078.7533355,
+    "ast_hash": "5634a46e4fafb61762215b64edeff145",
+    "semantic_hash": "5634a46e4fafb61762215b64edeff145"
+  },
+  "migrations/Version20261020145426.php": {
+    "mtime": 1792508066.6610997,
+    "ast_hash": "a7b3f381207339c2c7dbf36f50e75074",
+    "semantic_hash": "a7b3f381207339c2c7dbf36f50e75074"
+  },
+  "migrations/Version20261020152826.php": {
+    "mtime": 1792510106.8064399,
+    "ast_hash": "32f59748c3d20fff87aafa6d2849109c",
+    "semantic_hash": "32f59748c3d20fff87aafa6d2849109c"
+  },
+  "opencode.json": {
+    "mtime": 1792648400.0205617,
+    "ast_hash": "4f9155eeaf3baedc6bf3f6212b3bd7a9",
+    "semantic_hash": "4f9155eeaf3baedc6bf3f6212b3bd7a9"
+  },
+  "public/index.php": {
+    "mtime": 1792494565.0611124,
+    "ast_hash": "f34b60dbe474d04cbb178a16e4411fff",
+    "semantic_hash": "f34b60dbe474d04cbb178a16e4411fff"
+  },
+  "src/Application/BookApplicationService.php": {
+    "mtime": 1792652315.5865636,
+    "ast_hash": "fccd57d10c2a6e955ff3d6aeba2faf07",
+    "semantic_hash": "fccd57d10c2a6e955ff3d6aeba2faf07"
+  },
+  "src/Application/BookApplicationServiceInterface.php": {
+    "mtime": 1792652315.5903866,
+    "ast_hash": "64a7fbef21f0fb43b5a83fef2cdf77de",
+    "semantic_hash": "64a7fbef21f0fb43b5a83fef2cdf77de"
+  },
+  "src/Application/DTO/CreateBookDTO.php": {
+    "mtime": 1792652506.7602746,
+    "ast_hash": "395d2fdccc578a483c6c1803e33f8166",
+    "semantic_hash": "395d2fdccc578a483c6c1803e33f8166"
+  },
+  "src/Application/DTO/UpdateBookDTO.php": {
+    "mtime": 1792652520.0996878,
+    "ast_hash": "92cd698880f8b84b0fbc70099a2ce96e",
+    "semantic_hash": "92cd698880f8b84b0fbc70099a2ce96e"
+  },
+  "src/Application/Port/BookRepositoryInterface.php": {
+    "mtime": 1792652315.5568433,
+    "ast_hash": "6ed5882b3f54b3efd65a1bd3b42a5663",
+    "semantic_hash": "6ed5882b3f54b3efd65a1bd3b42a5663"
+  },
+  "src/Controller/BookController.php": {
+    "mtime": 1792652539.5815635,
+    "ast_hash": "2f06a97ab8acd53d49dbb4ae81845e0b",
+    "semantic_hash": "2f06a97ab8acd53d49dbb4ae81845e0b"
+  },
+  "src/Domain/DomainEvent/BookCreatedEvent.php": {
+    "mtime": 1792652315.523199,
+    "ast_hash": "1299ff80bd464a7c165ac492afcd2d97",
+    "semantic_hash": "1299ff80bd464a7c165ac492afcd2d97"
+  },
+  "src/Domain/DomainEvent/BookUpdatedEvent.php": {
+    "mtime": 1792652315.5213795,
+    "ast_hash": "bafa54b506deba66f241d1e143c86de0",
+    "semantic_hash": "bafa54b506deba66f241d1e143c86de0"
+  },
+  "src/Domain/Entity/Book.php": {
+    "mtime": 1792652315.5191507,
+    "ast_hash": "6c5af9c360536d142fc6d848996cf980",
+    "semantic_hash": "6c5af9c360536d142fc6d848996cf980"
+  },
+  "src/Domain/ValueObject/Title.php": {
+    "mtime": 1792652315.506757,
+    "ast_hash": "86ffcf97757ac5e36474dd5aa5abbdd8",
+    "semantic_hash": "86ffcf97757ac5e36474dd5aa5abbdd8"
+  },
+  "src/Infrastructure/Entity/Book.php": {
+    "mtime": 1792652315.5329206,
+    "ast_hash": "026a5af050f67e9f001367b0b3c4ea5a",
+    "semantic_hash": "026a5af050f67e9f001367b0b3c4ea5a"
+  },
+  "src/Infrastructure/EventListener/DomainEventListener.php": {
+    "mtime": 1792652315.518201,
+    "ast_hash": "0a5093ada19b6f18a23c8f4bd8113cf1",
+    "semantic_hash": "0a5093ada19b6f18a23c8f4bd8113cf1"
+  },
+  "src/Infrastructure/Middleware/RateLimitingMiddleware.php": {
+    "mtime": 1792652468.7500978,
+    "ast_hash": "35ab78df5e72d2080fedcdacff70f33f",
+    "semantic_hash": "35ab78df5e72d2080fedcdacff70f33f"
+  },
+  "src/Infrastructure/Middleware/SecurityHeadersListener.php": {
+    "mtime": 1792652315.5132513,
+    "ast_hash": "cc14d58df7139d13a4be69c2b90d9a6e",
+    "semantic_hash": "cc14d58df7139d13a4be69c2b90d9a6e"
+  },
+  "src/Infrastructure/Repository/BookRepository.php": {
+    "mtime": 1792652315.5532076,
+    "ast_hash": "f0b7f0cf7094ab0d75797374db4917be",
+    "semantic_hash": "f0b7f0cf7094ab0d75797374db4917be"
+  },
+  "src/Kernel.php": {
+    "mtime": 1792652315.5031407,
+    "ast_hash": "f8ceb36fdfcf49c356c8efb0aa6d4af9",
+    "semantic_hash": "f8ceb36fdfcf49c356c8efb0aa6d4af9"
+  },
+  "src/Repository/BookRepository.php": {
+    "mtime": 1792652474.5542774,
+    "ast_hash": "40abb4c22ce66858fa1d26baf2402f1e",
+    "semantic_hash": "40abb4c22ce66858fa1d26baf2402f1e"
+  },
+  "tests/Application/DTO/CreateBookDTOTest.php": {
+    "mtime": 1792652315.5989401,
+    "ast_hash": "7e022a9fd301efc721b8b28dd7dd78dc",
+    "semantic_hash": "7e022a9fd301efc721b8b28dd7dd78dc"
+  },
+  "tests/Application/Service/BookApplicationServiceTest.php": {
+    "mtime": 1792652482.6520011,
+    "ast_hash": "f7d391086863072e9a515444da404071",
+    "semantic_hash": "f7d391086863072e9a515444da404071"
+  },
+  "tests/Domain/ValueObject/TitleTest.php": {
+    "mtime": 1792652315.5150616,
+    "ast_hash": "26a7393815d648b4af1021f25de4bca7",
+    "semantic_hash": "26a7393815d648b4af1021f25de4bca7"
+  },
+  "tests/Infrastructure/Repository/InMemoryBookRepository.php": {
+    "mtime": 1792652315.558359,
+    "ast_hash": "3504dbaaea6132cddc3e26af03489d97",
+    "semantic_hash": "3504dbaaea6132cddc3e26af03489d97"
+  },
+  "tests/bootstrap.php": {
+    "mtime": 1792601657.9572184,
+    "ast_hash": "94b21fa727c21568a5829c3344714a92",
+    "semantic_hash": "94b21fa727c21568a5829c3344714a92"
+  }
+}

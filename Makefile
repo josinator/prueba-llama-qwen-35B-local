@@ -3,7 +3,7 @@
 # Stack: PHP 8.3 + MariaDB 10 + Nginx
 # ============================================
 
-.PHONY: help up down restart build clean logs composer vendor test db-migrate db-reset db-dump dev shell symfony php assets init-project
+.PHONY: help up down restart build clean logs composer vendor test db-migrate db-reset db-dump dev shell symfony php assets init-project graphify-update graphify-query graphify-path graphify-explain graphify-god-nodes graphify-affected graphify-report
 
 .DEFAULT_GOAL := help
 
@@ -38,6 +38,15 @@ help: ## Muestra esta ayuda
 	@echo "  GET    http://localhost:8080/api/books/{id} - Mostrar libro"
 	@echo "  POST   http://localhost:8080/api/books      - Crear libro"
 	@echo "  PUT    http://localhost:8080/api/books/{id} - Actualizar libro"
+	@echo ""
+	@echo "━━━ Graphify ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  make graphify-update      - Actualizar grafo de conocimiento"
+	@echo "  make graphify-query \"x\"   - Consultar grafo"
+	@echo "  make graphify-path \"A\" \"B\" - Ruta entre archivos"
+	@echo "  make graphify-explain \"x\" - Explicar concepto"
+	@echo "  make graphify-god-nodes   - Ver hubs arquitectónicos"
+	@echo "  make graphify-affected \"x\" - Ver archivos afectados"
+	@echo "  make graphify-report      - Mostrar reporte del grafo"
 
 # --- Docker Compose ---
 up: ## Levanta todos los contenedores en background
@@ -126,3 +135,41 @@ cs-fixer-dry: ## Ejecutar PHP-CS-Fixer (solo verifica, sin corregir)
 
 quality: ## Ejecutar PHPStan + PHP-CS-Fixer (dry-run)
 	docker compose exec $(PHP_SERVICE) sh -c "php ./vendor/bin/php-cs-fixer fix --dry-run --diff --ansi && php ./vendor/bin/phpstan analyse --ansi"
+
+# --- Graphify ---
+graphify-update: ## Actualizar grafo de conocimiento (AST-only, sin API)
+	graphify update .
+
+graphify-query: ## Consultar grafo: make graphify-query "pregunta"
+	@if [ -n "$(word 2, $(MAKECMDGOALS))" ]; then \
+		graphify query "$(word 2, $(MAKECMDGOALS))"; \
+	else \
+		echo "Uso: make graphify-query \"pregunta\""; \
+	fi
+
+graphify-path: ## Ruta entre archivos: make graphify-path "A.php" "B.php"
+	@if [ -n "$(word 2, $(MAKECMDGOALS))" ] && [ -n "$(word 3, $(MAKECMDGOALS))" ]; then \
+		graphify path "$(word 2, $(MAKECMDGOALS))" "$(word 3, $(MAKECMDGOALS))"; \
+	else \
+		echo "Uso: make graphify-path \"A.php\" \"B.php\""; \
+	fi
+
+graphify-explain: ## Explicar concepto: make graphify-explain "Concepto"
+	@if [ -n "$(word 2, $(MAKECMDGOALS))" ]; then \
+		graphify explain "$(word 2, $(MAKECMDGOALS))"; \
+	else \
+		echo "Uso: make graphify-explain \"Concepto\""; \
+	fi
+
+graphify-god-nodes: ## Ver nodos más conectados
+	graphify god-nodes --top 10
+
+graphify-affected: ## Ver archivos afectados: make graphify-affected "archivo.php"
+	@if [ -n "$(word 2, $(MAKECMDGOALS))" ]; then \
+		graphify affected "$(word 2, $(MAKECMDGOALS))"; \
+	else \
+		echo "Uso: make graphify-affected \"archivo.php\""; \
+	fi
+
+graphify-report: ## Mostrar reporte del grafo
+	cat graphify-out/GRAPH_REPORT.md

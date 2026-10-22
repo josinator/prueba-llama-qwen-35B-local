@@ -68,15 +68,48 @@ Adoptaremos arquitectura hexagonal (ports & adapters) con:
 
 1. **Antes de codificar**: Crear nota de arquitectura en `obsidian-vault/`
 2. **Durante el desarrollo**: Actualizar notas con decisiones y patrones usados
-3. **Al completar**: Generar grafo con graphify para visualizar conexiones
-4. **Referencia**: Leer notas del vault para contexto antes de programar
+3. **Al completar**: Actualizar grafo con `graphify update .` para mantenerlo sincronizado
+4. **Referencia**: Usar `graphify query` para encontrar contexto relevante antes de programar
 
 ## Integración con Graphify
 
-```bash
-# Generar grafo de conocimiento
-npx graphify obsidian-vault/ --output obsidian-vault/graph.html
+Graphify mantiene un grafo de conocimiento actualizado en `graphify-out/` que conecta:
+- Código fuente (AST + relaciones)
+- Notas del vault (Obsidian)
+- Decisiones de arquitectura (ADR)
 
-# Visualizar conexiones entre notas
-npx graphify obsidian-vault/ --format mermaid --output obsidian-vault/connections.mmd
+### Comandos principales
+
+```bash
+# Actualizar grafo después de cambios de código
+graphify update .
+
+# Consultar el grafo para encontrar contexto relevante
+graphify query "¿cómo se implementa la autenticación?"
+
+# Encontrar ruta entre dos archivos
+graphify path "src/Controller/BookController.php" "src/Repository/BookRepository.php"
+
+# Explicar un concepto del grafo
+graphify explain "RateLimitingMiddleware"
+
+# Ver nodos más conectados (hubs arquitectónicos)
+graphify god-nodes --top 10
+
+# Ver archivos afectados por un cambio
+graphify affected "src/DTO/CreateBookDTO.php"
 ```
+
+### Sincronización con Obsidian
+
+```bash
+# Generar visualización HTML del grafo completo
+graphify tree --output graphify-out/GRAPH_TREE.html
+
+# Ver reportes de comunidades
+cat graphify-out/GRAPH_REPORT.md
+```
+
+### Uso con OpenCode
+
+El plugin `tool.execute.before` ejecuta automáticamente `graphify query` antes de responder preguntas del códigobase, reduciendo el contexto necesario y mejorando velocidad/qualidad.

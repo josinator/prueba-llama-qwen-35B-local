@@ -1,0 +1,480 @@
+{
+  "communities": {
+    "0": [
+      "app_application_port_bookrepositoryinterface",
+      "bookapplicationserviceinterface",
+      "src_application_bookapplicationservice",
+      "src_application_bookapplicationservice_bookapplicationservice",
+      "src_application_bookapplicationservice_bookapplicationservice_construct",
+      "src_application_bookapplicationservice_bookapplicationservice_createbook",
+      "src_application_bookapplicationservice_bookapplicationservice_deletebook",
+      "src_application_bookapplicationservice_bookapplicationservice_getbook",
+      "src_application_bookapplicationservice_bookapplicationservice_listbooks",
+      "src_application_bookapplicationservice_bookapplicationservice_updatebook",
+      "src_application_port_bookrepositoryinterface",
+      "src_application_port_bookrepositoryinterface_delete",
+      "src_application_port_bookrepositoryinterface_find",
+      "src_application_port_bookrepositoryinterface_findall",
+      "src_application_port_bookrepositoryinterface_findbytitlehash",
+      "src_application_port_bookrepositoryinterface_save",
+      "src_domain_entity_book",
+      "src_domain_entity_book_book",
+      "src_domain_entity_book_book_construct",
+      "src_domain_entity_book_book_generateid",
+      "src_domain_entity_book_book_getauthor",
+      "src_domain_entity_book_book_getcreatedat",
+      "src_domain_entity_book_book_getdescription",
+      "src_domain_entity_book_book_getid",
+      "src_domain_entity_book_book_gettitle",
+      "src_domain_entity_book_book_getupdatedat",
+      "src_domain_entity_book_book_setauthor",
+      "src_domain_entity_book_book_setdescription",
+      "src_domain_entity_book_book_settitle",
+      "src_domain_entity_book_php_datetimeimmutable",
+      "src_domain_valueobject_title",
+      "src_domain_valueobject_title_title",
+      "src_domain_valueobject_title_title_construct",
+      "src_domain_valueobject_title_title_hash",
+      "src_domain_valueobject_title_title_tostring",
+      "symfony_component_eventdispatcher_eventdispatcherinterface",
+      "tests_infrastructure_repository_inmemorybookrepository",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_clear",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_delete",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_find",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_findall",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_findbytitlehash",
+      "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository_save"
+    ],
+    "1": [
+      "phpunit_framework_testcase",
+      "src_application_dto_createbookdto",
+      "src_application_dto_createbookdto_createbookdto",
+      "src_application_dto_createbookdto_createbookdto_construct",
+      "src_application_dto_createbookdto_createbookdto_fromarray",
+      "src_application_dto_createbookdto_createbookdto_validate",
+      "src_application_dto_createbookdto_php_self",
+      "src_application_dto_updatebookdto",
+      "symfony_component_eventdispatcher_eventdispatcher",
+      "tests_application_dto_createbookdtotest",
+      "tests_application_dto_createbookdtotest_createbookdtotest",
+      "tests_application_dto_createbookdtotest_createbookdtotest_fromarraycreatesdto",
+      "tests_application_dto_createbookdtotest_createbookdtotest_validatereturnsemptyarrayonvaliddata",
+      "tests_application_dto_createbookdtotest_createbookdtotest_validatereturnserrorsonemptyauthor",
+      "tests_application_dto_createbookdtotest_createbookdtotest_validatereturnserrorsonemptytitle",
+      "tests_application_dto_createbookdtotest_createbookdtotest_validatereturnserrorsontoolongauthor",
+      "tests_application_dto_createbookdtotest_createbookdtotest_validatereturnserrorsontoolongtitle",
+      "tests_application_service_bookapplicationservicetest",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_createbookcreatesbooksuccessfully",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_createbookdispatchesevent",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_createbookthrowsonduplicatetitle",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_createbookthrowsoninvaliddto",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_deletebookremovessuccessfully",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_deletebookreturnsfalsewhennotfound",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_getbookreturnsbook",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_getbookreturnsnullwhennotfound",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_listbooksreturnsarray",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_setup",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_updatebookdispatchesevent",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_updatebookupdatessuccessfully",
+      "tests_domain_valueobject_titletest"
+    ],
+    "2": [
+      "composer",
+      "composer_allow_plugins_symfony_flex",
+      "composer_allow_plugins_symfony_runtime",
+      "composer_auto_scripts_assets_install_public_dir",
+      "composer_auto_scripts_cache_clear",
+      "composer_autoload",
+      "composer_autoload_dev",
+      "composer_autoload_dev_psr_4",
+      "composer_autoload_psr_4",
+      "composer_config",
+      "composer_config_allow_plugins",
+      "composer_config_optimize_autoloader",
+      "composer_config_preferred_install",
+      "composer_config_sort_packages",
+      "composer_license",
+      "composer_psr_4_app",
+      "composer_psr_4_app_tests",
+      "composer_require_dev",
+      "composer_require_dev_friendsofphp_php_cs_fixer",
+      "composer_require_dev_phpstan_phpstan",
+      "composer_require_dev_phpunit_phpunit",
+      "composer_require_dev_symfony_browser_kit",
+      "composer_require_dev_symfony_maker_bundle",
+      "composer_scripts",
+      "composer_scripts_auto_scripts",
+      "composer_scripts_post_install_cmd",
+      "composer_scripts_post_update_cmd",
+      "composer_type",
+      "ref_auto_scripts"
+    ],
+    "3": [
+      "composer_require",
+      "composer_require_doctrine_doctrine_bundle",
+      "composer_require_doctrine_doctrine_migrations_bundle",
+      "composer_require_doctrine_orm",
+      "composer_require_ext_ctype",
+      "composer_require_ext_iconv",
+      "composer_require_php",
+      "composer_require_ramsey_uuid_doctrine",
+      "composer_require_symfony_console",
+      "composer_require_symfony_dotenv",
+      "composer_require_symfony_flex",
+      "composer_require_symfony_framework_bundle",
+      "composer_require_symfony_property_access",
+      "composer_require_symfony_property_info",
+      "composer_require_symfony_runtime",
+      "composer_require_symfony_serializer",
+      "composer_require_symfony_twig_bundle",
+      "composer_require_symfony_validator",
+      "composer_require_symfony_yaml"
+    ],
+    "4": [
+      "app_application_bookapplicationserviceinterface",
+      "bin_console",
+      "public_index",
+      "src_controller_bookcontroller",
+      "src_controller_bookcontroller_bookcontroller",
+      "src_controller_bookcontroller_bookcontroller_construct",
+      "src_controller_bookcontroller_bookcontroller_create",
+      "src_controller_bookcontroller_bookcontroller_list",
+      "src_controller_bookcontroller_bookcontroller_serializebook",
+      "src_controller_bookcontroller_bookcontroller_show",
+      "src_controller_bookcontroller_bookcontroller_update",
+      "src_kernel",
+      "src_kernel_kernel",
+      "symfony_bundle_frameworkbundle_controller_abstractcontroller",
+      "symfony_bundle_frameworkbundle_kernel_microkerneltrait",
+      "symfony_component_httpfoundation_jsonresponse",
+      "symfony_component_httpfoundation_request",
+      "symfony_component_httpkernel_kernel"
+    ],
+    "5": [
+      "src_infrastructure_entity_book",
+      "src_infrastructure_entity_book_book",
+      "src_infrastructure_entity_book_book_construct",
+      "src_infrastructure_entity_book_book_getauthor",
+      "src_infrastructure_entity_book_book_getcreatedat",
+      "src_infrastructure_entity_book_book_getdescription",
+      "src_infrastructure_entity_book_book_getid",
+      "src_infrastructure_entity_book_book_gettitle",
+      "src_infrastructure_entity_book_book_gettitlehash",
+      "src_infrastructure_entity_book_book_getupdatedat",
+      "src_infrastructure_entity_book_book_setauthor",
+      "src_infrastructure_entity_book_book_setcreatedat",
+      "src_infrastructure_entity_book_book_setdescription",
+      "src_infrastructure_entity_book_book_setid",
+      "src_infrastructure_entity_book_book_settitle",
+      "src_infrastructure_entity_book_book_setupdatedat",
+      "src_infrastructure_entity_book_php_datetimeimmutable"
+    ],
+    "6": [
+      "opencode",
+      "opencode_default_agent",
+      "opencode_llamacpp_models",
+      "opencode_llamacpp_options",
+      "opencode_model",
+      "opencode_models_qwen35_35b",
+      "opencode_options_apikey",
+      "opencode_options_baseurl",
+      "opencode_provider",
+      "opencode_provider_llamacpp",
+      "opencode_qwen35_35b_name",
+      "opencode_schema",
+      "opencode_skills",
+      "opencode_skills_paths",
+      "ref_opencode_skills"
+    ],
+    "7": [
+      "psr_log_loggerinterface",
+      "src_domain_domainevent_bookcreatedevent",
+      "src_domain_domainevent_bookcreatedevent_bookcreatedevent",
+      "src_domain_domainevent_bookcreatedevent_bookcreatedevent_construct",
+      "src_domain_domainevent_bookcreatedevent_php_datetimeimmutable",
+      "src_domain_domainevent_bookupdatedevent",
+      "src_domain_domainevent_bookupdatedevent_bookupdatedevent",
+      "src_domain_domainevent_bookupdatedevent_bookupdatedevent_construct",
+      "src_domain_domainevent_bookupdatedevent_php_datetimeimmutable",
+      "src_infrastructure_eventlistener_domaineventlistener",
+      "src_infrastructure_eventlistener_domaineventlistener_domaineventlistener",
+      "src_infrastructure_eventlistener_domaineventlistener_domaineventlistener_construct",
+      "src_infrastructure_eventlistener_domaineventlistener_domaineventlistener_onbookcreated",
+      "src_infrastructure_eventlistener_domaineventlistener_domaineventlistener_onbookupdated"
+    ],
+    "8": [
+      "src_application_bookapplicationserviceinterface",
+      "src_application_bookapplicationserviceinterface_createbook",
+      "src_application_bookapplicationserviceinterface_deletebook",
+      "src_application_bookapplicationserviceinterface_getbook",
+      "src_application_bookapplicationserviceinterface_listbooks",
+      "src_application_bookapplicationserviceinterface_updatebook",
+      "src_application_dto_updatebookdto_php_self",
+      "src_application_dto_updatebookdto_updatebookdto",
+      "src_application_dto_updatebookdto_updatebookdto_construct",
+      "src_application_dto_updatebookdto_updatebookdto_fromarray",
+      "src_application_dto_updatebookdto_updatebookdto_haschanges",
+      "src_application_dto_updatebookdto_updatebookdto_validate",
+      "tests_application_service_bookapplicationservicetest_bookapplicationservicetest_updatebookreturnsnullwhennotfound"
+    ],
+    "9": [
+      "doctrine_dbal_schema_schema",
+      "doctrine_migrations_abstractmigration",
+      "migrations_version20261020145426",
+      "migrations_version20261020145426_version20261020145426",
+      "migrations_version20261020145426_version20261020145426_down",
+      "migrations_version20261020145426_version20261020145426_getdescription",
+      "migrations_version20261020145426_version20261020145426_up",
+      "migrations_version20261020152826",
+      "migrations_version20261020152826_version20261020152826",
+      "migrations_version20261020152826_version20261020152826_down",
+      "migrations_version20261020152826_version20261020152826_getdescription",
+      "migrations_version20261020152826_version20261020152826_up"
+    ],
+    "10": [
+      "doctrine_orm_entitymanagerinterface",
+      "doctrinebook",
+      "src_infrastructure_repository_bookrepository",
+      "src_infrastructure_repository_bookrepository_bookrepository",
+      "src_infrastructure_repository_bookrepository_bookrepository_construct",
+      "src_infrastructure_repository_bookrepository_bookrepository_delete",
+      "src_infrastructure_repository_bookrepository_bookrepository_find",
+      "src_infrastructure_repository_bookrepository_bookrepository_findall",
+      "src_infrastructure_repository_bookrepository_bookrepository_findbytitlehash",
+      "src_infrastructure_repository_bookrepository_bookrepository_save",
+      "src_infrastructure_repository_bookrepository_bookrepository_todoctrine",
+      "src_infrastructure_repository_bookrepository_bookrepository_todomain"
+    ],
+    "11": [
+      "tests_domain_valueobject_titletest_titletest",
+      "tests_domain_valueobject_titletest_titletest_titlecreateswithvalue",
+      "tests_domain_valueobject_titletest_titletest_titlehashisconsistent",
+      "tests_domain_valueobject_titletest_titletest_titlehashreturnsmd5",
+      "tests_domain_valueobject_titletest_titletest_titlethrowsonemptystring",
+      "tests_domain_valueobject_titletest_titletest_titlethrowsontoolongstring",
+      "tests_domain_valueobject_titletest_titletest_titlethrowsonwhitespaceonly",
+      "tests_domain_valueobject_titletest_titletest_titletostringreturnsvalue"
+    ],
+    "12": [
+      "opencode_tools_knowledge_graph",
+      "opencode_tools_knowledge_graph_files",
+      "opencode_tools_knowledge_graph_fs",
+      "opencode_tools_knowledge_graph_links",
+      "opencode_tools_knowledge_graph_nodes",
+      "opencode_tools_knowledge_graph_outputpath",
+      "opencode_tools_knowledge_graph_path"
+    ],
+    "13": [
+      "src_infrastructure_middleware_ratelimitingmiddleware",
+      "src_infrastructure_middleware_ratelimitingmiddleware_ratelimitingmiddleware",
+      "src_infrastructure_middleware_ratelimitingmiddleware_ratelimitingmiddleware_invoke",
+      "src_infrastructure_middleware_securityheaderslistener",
+      "src_infrastructure_middleware_securityheaderslistener_securityheaderslistener",
+      "src_infrastructure_middleware_securityheaderslistener_securityheaderslistener_invoke",
+      "symfony_component_httpkernel_event_requestevent"
+    ],
+    "14": [
+      "doctrine_bundle_doctrinebundle_repository_serviceentityrepository",
+      "doctrine_persistence_managerregistry",
+      "src_repository_bookrepository",
+      "src_repository_bookrepository_bookrepository",
+      "src_repository_bookrepository_bookrepository_construct"
+    ],
+    "15": [
+      "opencode_plugins_graphify",
+      "opencode_plugins_graphify_graphifyplugin",
+      "opencode_plugins_graphify_rationale_4"
+    ],
+    "16": [
+      "opencode_tools_generate_graph",
+      "opencode_tools_generate_graph_sh__entry"
+    ],
+    "17": [
+      "bin_phpunit"
+    ],
+    "18": [
+      "config_bundles"
+    ],
+    "19": [
+      "config_preload"
+    ],
+    "20": [
+      "php_cs_fixer_dist"
+    ],
+    "21": [
+      "tests_bootstrap"
+    ]
+  },
+  "cohesion": {
+    "0": 0.0708245243128964,
+    "1": 0.10080645161290322,
+    "2": 0.07142857142857142,
+    "3": 0.10526315789473684,
+    "4": 0.20915032679738563,
+    "5": 0.14705882352941177,
+    "6": 0.13333333333333333,
+    "7": 0.2087912087912088,
+    "8": 0.16666666666666666,
+    "9": 0.2727272727272727,
+    "10": 0.30303030303030304,
+    "11": 0.25,
+    "12": 0.2857142857142857,
+    "13": 0.38095238095238093,
+    "14": 0.6,
+    "15": 0.6666666666666666,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_domain_entity_book_book",
+      "label": "Book",
+      "degree": 35
+    },
+    {
+      "id": "src_application_dto_createbookdto_createbookdto",
+      "label": "CreateBookDTO",
+      "degree": 24
+    },
+    {
+      "id": "composer_require",
+      "label": "require",
+      "degree": 19
+    },
+    {
+      "id": "src_infrastructure_entity_book_book",
+      "label": "Book",
+      "degree": 18
+    },
+    {
+      "id": "tests_application_service_bookapplicationservicetest_bookapplicationservicetest",
+      "label": "BookApplicationServiceTest",
+      "degree": 18
+    },
+    {
+      "id": "src_application_dto_updatebookdto_updatebookdto",
+      "label": "UpdateBookDTO",
+      "degree": 13
+    },
+    {
+      "id": "src_domain_valueobject_title_title",
+      "label": "Title",
+      "degree": 12
+    },
+    {
+      "id": "src_infrastructure_repository_bookrepository_bookrepository",
+      "label": "BookRepository",
+      "degree": 11
+    },
+    {
+      "id": "src_application_bookapplicationservice_bookapplicationservice",
+      "label": "BookApplicationService",
+      "degree": 10
+    },
+    {
+      "id": "tests_infrastructure_repository_inmemorybookrepository_inmemorybookrepository",
+      "label": "InMemoryBookRepository",
+      "degree": 10
+    }
+  ],
+  "surprises": [
+    {
+      "source": "getBook()",
+      "target": "Book",
+      "source_files": [
+        "src/Application/BookApplicationServiceInterface.php",
+        "src/Domain/Entity/Book.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities; peripheral node `getBook()` unexpectedly reaches hub `Book`"
+    },
+    {
+      "source": "createBook()",
+      "target": "CreateBookDTO",
+      "source_files": [
+        "src/Application/BookApplicationServiceInterface.php",
+        "src/Application/DTO/CreateBookDTO.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "createBook()",
+      "target": "Book",
+      "source_files": [
+        "src/Application/BookApplicationServiceInterface.php",
+        "src/Domain/Entity/Book.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "updateBook()",
+      "target": "Book",
+      "source_files": [
+        "src/Application/BookApplicationServiceInterface.php",
+        "src/Domain/Entity/Book.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "save()",
+      "target": "Book",
+      "source_files": [
+        "src/Application/Port/BookRepositoryInterface.php",
+        "src/Domain/Entity/Book.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `save()` unexpectedly reaches hub `Book`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `Book` connect `Book` to `UpdateBookDTO`, `BookRepository`?",
+      "why": "High betweenness centrality (0.168) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `CreateBookDTO` connect `CreateBookDTO` to `Book`, `UpdateBookDTO`, `BookController`?",
+      "why": "High betweenness centrality (0.090) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Book` connect `Book` to `BookRepository`?",
+      "why": "High betweenness centrality (0.070) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 16 inferred relationships involving `CreateBookDTO` (e.g. with `.create()` and `.fromArrayCreatesDto()`) actually correct?",
+      "why": "`CreateBookDTO` has 16 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `generate-graph.sh script`, `fs`, `path` to the rest of the system?",
+      "why": "48 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Book` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0708245243128964 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `CreateBookDTO` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10080645161290322 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
