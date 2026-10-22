@@ -70,6 +70,45 @@ When no agent is specified, use **hexagonal-architect** by default.
 - Config: `.php-cs-fixer.php`
 - Hook: `.git/hooks/pre-commit`
 
+### frontend
+
+**File:** `.opencode/agents/frontend.md`
+**Role:** Frontend expert for Symfony 7.1 specializing in Twig, Alpine.js, HTMX, Symfony UX, CSS, dashboards, modals, and server-driven UI.
+**Use for:** Creating dashboards, modals, interactive tables, forms, SSE integration, and any UI component that integrates with Symfony.
+
+**Responsibilities:**
+1. Create dashboards — Stats, tables, charts, navigation with Twig + Alpine.js
+2. Build modals — Create, edit, confirm, delete modals with proper accessibility
+3. Implement interactive tables — Pagination, search, sorting with HTMX or Alpine.js
+4. Develop forms — With validation, loading states, and visual feedback
+5. Integrate SSE — Server-Sent Events for real-time updates
+6. Write CSS — Variables, responsive design, reusable components
+7. Optimize performance — Lazy loading, debounce, request caching
+
+**Strict Rules:**
+- NEVER put business logic in Twig templates or JavaScript
+- ALWAYS use Twig `x-data` for Alpine.js state encapsulation — never global variables
+- ALWAYS use `x-text` instead of `{% raw %}{{ }}{% endraw %}` in Alpine.js for XSS prevention
+- ALWAYS use `escapeHtml()` for user data in JavaScript
+- ALWAYS use CSS variables (`--color-*`) — never hardcoded colors
+- ALWAYS implement responsive design — mobile-first with media queries
+- ALWAYS add `aria-*` attributes for accessibility in modals and dialogs
+- ALWAYS use debounce in search inputs: `@input.debounce.300ms`
+- NEVER use `innerHTML` with user data — use `x-text` or `escapeHtml()`
+- NEVER use `!important` in CSS — use proper specificity
+- ALWAYS centralize API calls in a reusable `API` client object
+- ALWAYS implement error handling in all API calls
+- ALWAYS use `x-cloak` to prevent Alpine.js content flash
+- ALWAYS use `x-transition` instead of `setTimeout` for animations
+- ALWAYS use `x-show` instead of directly manipulating `display`
+- ALWAYS validate data on the backend — never trust frontend validation alone
+- ALWAYS use CSRF tokens in forms with HTMX: `hx-headers='{"X-CSRF-TOKEN": "..."}'`
+
+**References:**
+- Skill: `.opencode/skills/frontend-symfony/SKILL.md`
+- Skill: `.opencode/skills/php-symfony/SKILL.md`
+- Skill: `.opencode/skills/hexagonal-architecture/SKILL.md`
+
 ## Available Skills
 
 ### php-symfony
@@ -96,6 +135,11 @@ When no agent is specified, use **hexagonal-architect** by default.
 **File:** `.opencode/skills/obsidian-vault/SKILL.md`
 **Use when:** Managing project knowledge, creating architecture notes, saving decisions, or preserving context.
 **Covers:** Vault structure, ADR format, knowledge graph integration with graphify.
+
+### frontend-symfony
+**File:** `.opencode/skills/frontend-symfony/SKILL.md`
+**Use when:** Creating dashboards, modals, tables, forms, SSE integration, or any UI component for Symfony.
+**Covers:** Twig templates, Alpine.js, HTMX, Symfony UX Stimulus/Turbo, CSS architecture, responsive design, server-driven UI.
 
 ## Graphify — Knowledge Graph
 
@@ -166,28 +210,40 @@ make graphify-report
 2. Update vault notes with decisions and patterns used
 3. Run `graphify update .` after code changes
 
-### Mandadory Dual-Agent Validation Gate
+### Mandatory Dual-Agent Validation Gate
 
-Before ANY commit, the code MUST pass validation from BOTH agents. This is a hard gate — no exceptions.
+Before ANY commit, the code MUST pass validation from the required agents. This is a hard gate — no exceptions.
 
-**Process:**
-1. After writing or modifying code, launch BOTH agents in parallel:
+**Process for PHP-only changes:**
+1. After writing or modifying PHP code, launch BOTH agents in parallel:
    - `hexagonal-architect` — review architecture, SOLID, layer separation, dependency inversion, ports/adapters, DTOs
    - `code-quality` — run PHPStan Level 7, PHP-CS-Fixer, validate typing, fix imports
-2. If EITHER agent reports violations:
+
+**Process for frontend changes (Twig, JS, CSS, templates):**
+1. After writing or modifying frontend code, launch BOTH agents in parallel:
+   - `frontend` — review Twig templates, Alpine.js components, CSS, modals, dashboards, SSE
+   - `hexagonal-architect` — verify no business logic in templates, proper separation of concerns
+
+**Process for full-stack changes (PHP + Frontend):**
+1. After writing or modifying full-stack code, launch ALL THREE agents in parallel:
+   - `hexagonal-architect` — review architecture, SOLID, layer separation, dependency inversion, DTOs
+   - `code-quality` — run PHPStan Level 7, PHP-CS-Fixer, validate typing, fix imports
+   - `frontend` — review Twig templates, Alpine.js components, CSS, modals, dashboards, SSE
+
+2. If ANY agent reports violations:
    - Fix ALL reported issues
-   - Re-run BOTH agents
-   - Repeat until BOTH agents pass with zero violations
-3. Only when BOTH agents report clean results can you proceed to commit
+   - Re-run ALL agents
+   - Repeat until ALL agents pass with zero violations
+3. Only when ALL agents report clean results can you proceed to commit
 
 **Strict Rules:**
-- NEVER commit code that fails either agent's review
+- NEVER commit code that fails any agent's review
 - NEVER skip agent validation, even under time pressure
 - NEVER ignore violations "with low priority" — all violations must be fixed
 - If an agent reports a false positive, document the justification in a comment AND get agent confirmation before skipping
-- Both agents must review ALL modified files, not just new ones
+- All agents must review ALL modified files relevant to their domain, not just new ones
 - Run `make quality` (PHPStan + CS-Fixer) inside Docker as a preliminary check, but agent review is still mandatory
-- After fixing issues, always re-run both agents to ensure no regressions were introduced
+- After fixing issues, always re-run all agents to ensure no regressions were introduced
 
 **Common violation patterns that agents catch:**
 - Domain layer depending on Infrastructure (EntityManager, Doctrine)
@@ -198,12 +254,18 @@ Before ANY commit, the code MUST pass validation from BOTH agents. This is a har
 - SRP violations (controllers with multiple unrelated responsibilities)
 - Memory issues (loading all records for aggregation)
 - Incomplete repository implementations (missing interface methods)
+- Business logic in Twig templates or JavaScript
+- XSS vulnerabilities (using `{% raw %}{{ }}{% endraw %}` instead of `x-text`)
+- Hardcoded colors instead of CSS variables
 
 ### Before Committing
 
-1. Run both agents — hexagonal-architect AND code-quality
-2. Fix ALL violations from both agents
-3. Re-run both agents until both pass clean
+1. Run required agents based on file types modified:
+   - PHP files: hexagonal-architect AND code-quality
+   - Frontend files (Twig, CSS, JS): frontend AND hexagonal-architect
+   - Full-stack changes: hexagonal-architect AND code-quality AND frontend
+2. Fix ALL violations from all agents
+3. Re-run all agents until all pass clean
 4. Fix code style: `make cs-fixer`
 5. Fix static analysis: `make phpstan`
 6. Verify pre-commit hook passes (runs automatically)
