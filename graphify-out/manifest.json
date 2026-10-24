@@ -1,8 +1,8 @@
 {
   ".opencode/opencode.json": {
-    "mtime": 1792653940.1209753,
-    "ast_hash": "abcc8b9dcd80bca5f9dde6d9f0c3ae79",
-    "semantic_hash": "abcc8b9dcd80bca5f9dde6d9f0c3ae79"
+    "mtime": 1792655869.0488484,
+    "ast_hash": "e5f74d14a81702b55bdf53b33ec991d7",
+    "semantic_hash": ""
   },
   ".opencode/plugins/graphify.js": {
     "mtime": 1792653940.1208737,
@@ -35,9 +35,9 @@
     "semantic_hash": "1e575fb6757b79b7048ba340f941c61d"
   },
   "composer.json": {
-    "mtime": 1792652233.284671,
-    "ast_hash": "e2dc8e658fa5c33820fa60f334f107c0",
-    "semantic_hash": "e2dc8e658fa5c33820fa60f334f107c0"
+    "mtime": 1792837119.5844362,
+    "ast_hash": "e7a155f5f147b9f18dcbdea7e1f452bb",
+    "semantic_hash": ""
   },
   "config/bundles.php": {
     "mtime": 1792504078.7576385,
@@ -60,7 +60,7 @@
     "semantic_hash": "32f59748c3d20fff87aafa6d2849109c"
   },
   "opencode.json": {
-    "mtime": 1792648400.0205617,
+    "mtime": 1792755088.1554995,
     "ast_hash": "4f9155eeaf3baedc6bf3f6212b3bd7a9",
     "semantic_hash": "4f9155eeaf3baedc6bf3f6212b3bd7a9"
   },
@@ -90,9 +90,9 @@
     "semantic_hash": "92cd698880f8b84b0fbc70099a2ce96e"
   },
   "src/Application/Port/BookRepositoryInterface.php": {
-    "mtime": 1792652315.5568433,
-    "ast_hash": "6ed5882b3f54b3efd65a1bd3b42a5663",
-    "semantic_hash": "6ed5882b3f54b3efd65a1bd3b42a5663"
+    "mtime": 1792679786.567226,
+    "ast_hash": "fdff06e3197a79cda2ec71315acaecbe",
+    "semantic_hash": ""
   },
   "src/Controller/BookController.php": {
     "mtime": 1792652539.5815635,
@@ -125,9 +125,9 @@
     "semantic_hash": "026a5af050f67e9f001367b0b3c4ea5a"
   },
   "src/Infrastructure/EventListener/DomainEventListener.php": {
-    "mtime": 1792652315.518201,
-    "ast_hash": "0a5093ada19b6f18a23c8f4bd8113cf1",
-    "semantic_hash": "0a5093ada19b6f18a23c8f4bd8113cf1"
+    "mtime": 1792679637.6371562,
+    "ast_hash": "a26da83d5518cad969aa3c0c18407939",
+    "semantic_hash": ""
   },
   "src/Infrastructure/Middleware/RateLimitingMiddleware.php": {
     "mtime": 1792652468.7500978,
@@ -140,9 +140,9 @@
     "semantic_hash": "cc14d58df7139d13a4be69c2b90d9a6e"
   },
   "src/Infrastructure/Repository/BookRepository.php": {
-    "mtime": 1792652315.5532076,
-    "ast_hash": "f0b7f0cf7094ab0d75797374db4917be",
-    "semantic_hash": "f0b7f0cf7094ab0d75797374db4917be"
+    "mtime": 1792679898.7527719,
+    "ast_hash": "1cbc72e1ba117ca8383b3137d7c60a7a",
+    "semantic_hash": ""
   },
   "src/Kernel.php": {
     "mtime": 1792652315.5031407,
@@ -170,9 +170,9 @@
     "semantic_hash": "26a7393815d648b4af1021f25de4bca7"
   },
   "tests/Infrastructure/Repository/InMemoryBookRepository.php": {
-    "mtime": 1792652315.558359,
-    "ast_hash": "3504dbaaea6132cddc3e26af03489d97",
-    "semantic_hash": "3504dbaaea6132cddc3e26af03489d97"
+    "mtime": 1792679889.7556481,
+    "ast_hash": "efbf4bf3802a55fc71acf51f0cb23b15",
+    "semantic_hash": ""
   },
   "tests/bootstrap.php": {
     "mtime": 1792601657.9572184,
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1792653940.1207154,
-    "ast_hash": "6a47d64fcc136324ca395065a707ef76",
+    "mtime": 1792733958.609626,
+    "ast_hash": "48b72c5dbacdcb8a19a81ba8ecf89e15",
     "semantic_hash": ""
   },
   "README.md": {
@@ -300,48 +300,48 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1792509783.6286986,
-    "ast_hash": "1fbb3dd3c929e35e6b6909582db1d789",
+    "mtime": 1792827061.0442839,
+    "ast_hash": "1b789b71a03b13f0a9c1d68a8f9082cb",
     "semantic_hash": ""
   },
   "obsidian-vault/000-Project-Overview.md": {
-    "mtime": 1792573781.269461,
-    "ast_hash": "eb027ff9f3b4196f4e767abb3dd8ffb7",
+    "mtime": 1792772097.842746,
+    "ast_hash": "1734a978412ab3f866482f5666de457d",
     "semantic_hash": ""
   },
   "obsidian-vault/001-Architecture.md": {
-    "mtime": 1792573790.467596,
-    "ast_hash": "bf4c886fd5e70d704489b11c8d8f10a5",
+    "mtime": 1792772159.0195665,
+    "ast_hash": "6b322dfbce1e4f14af1063b1de1c478e",
     "semantic_hash": ""
   },
   "obsidian-vault/002-Design-Decisions.md": {
-    "mtime": 1792573794.062649,
-    "ast_hash": "c98e7f6a5ede622b52722074c09fadd7",
+    "mtime": 1792838171.2403412,
+    "ast_hash": "a1145a5a692ea87eef8a483851356fb0",
     "semantic_hash": ""
   },
   "obsidian-vault/010-Domain-Model.md": {
-    "mtime": 1792573481.7370574,
-    "ast_hash": "a465b7e7b12e535996fc7ef7e32819dd",
+    "mtime": 1792772230.619515,
+    "ast_hash": "17fb39c2e7b9dd043090975898878ef9",
     "semantic_hash": ""
   },
   "obsidian-vault/020-API-Documentation.md": {
-    "mtime": 1792573501.1273427,
-    "ast_hash": "a3621763ae94171a3034514425cf7802",
+    "mtime": 1792772289.5462868,
+    "ast_hash": "6b0eb810afc39000df96a32e1c181d56",
     "semantic_hash": ""
   },
   "obsidian-vault/100-Patterns-Used.md": {
-    "mtime": 1792573797.5847008,
-    "ast_hash": "dc903f619ad4124a5b3819132f485428",
+    "mtime": 1792772318.308661,
+    "ast_hash": "9a90634393a682927abcbcd1dc9f93c3",
     "semantic_hash": ""
   },
   "obsidian-vault/200-TODOs.md": {
-    "mtime": 1792573519.2226086,
-    "ast_hash": "5a88e652426dd9d80d75e9ddbed4bc50",
+    "mtime": 1792838178.0004184,
+    "ast_hash": "d43a14d970c0f8dc299a4e06027f1c7a",
     "semantic_hash": ""
   },
   "obsidian-vault/300-Code-Quality.md": {
-    "mtime": 1792651357.562578,
-    "ast_hash": "637ffd847c8109dd816739e2077c61f4",
+    "mtime": 1792772358.016175,
+    "ast_hash": "504a844e522df75c6f3a5fdf93fb18ad",
     "semantic_hash": ""
   },
   "obsidian-vault/310-Pre-commit-Hook.md": {
@@ -350,13 +350,153 @@
     "semantic_hash": ""
   },
   "obsidian-vault/320-Graphify-Knowledge-Graph.md": {
-    "mtime": 1792654133.5798712,
-    "ast_hash": "3c8b1546e1fa0be18b6cc5d1a1596646",
+    "mtime": 1792772367.3002949,
+    "ast_hash": "e844952ea8f072db657d100c855195be",
     "semantic_hash": ""
   },
   "obsidian-vault/graph.html": {
-    "mtime": 1792648743.110153,
-    "ast_hash": "1f4c407513b4ab126ca627d1aaa6ec14",
+    "mtime": 1792829280.3207076,
+    "ast_hash": "4d4626f4cb5646fdefb8155d7258793c",
+    "semantic_hash": ""
+  },
+  "assets/js/app.js": {
+    "mtime": 1792735331.828675,
+    "ast_hash": "633832e6b899c1864e51ba0ef569e65b",
+    "semantic_hash": ""
+  },
+  "public/js/app.js": {
+    "mtime": 1792735558.9467614,
+    "ast_hash": "633832e6b899c1864e51ba0ef569e65b",
+    "semantic_hash": ""
+  },
+  "src/Application/BookChangeTrackerService.php": {
+    "mtime": 1792683580.291281,
+    "ast_hash": "3bf8f2ffec0192f30d38b5976789e92e",
+    "semantic_hash": ""
+  },
+  "src/Application/BookSearchService.php": {
+    "mtime": 1792684029.8765965,
+    "ast_hash": "afe6ebe9cb88d29a4befb787ac001e54",
+    "semantic_hash": ""
+  },
+  "src/Application/BookStatisticsService.php": {
+    "mtime": 1792683608.237658,
+    "ast_hash": "eec48d8a580f1ddb3ca239ff15766cff",
+    "semantic_hash": ""
+  },
+  "src/Application/BookStatisticsServiceInterface.php": {
+    "mtime": 1792667330.7932904,
+    "ast_hash": "a612c3a8ac5cf8d27b14629e50e46e4f",
+    "semantic_hash": ""
+  },
+  "src/Application/DTO/BookStatisticsDTO.php": {
+    "mtime": 1792667294.5208046,
+    "ast_hash": "124193750fbb0395279ffbe92aaf8ada",
+    "semantic_hash": ""
+  },
+  "src/Application/DTO/SearchBooksDTO.php": {
+    "mtime": 1792683634.2210085,
+    "ast_hash": "113ec03e275163fa3bac5e9703076b40",
+    "semantic_hash": ""
+  },
+  "src/Application/Port/BookChangeTrackerInterface.php": {
+    "mtime": 1792667356.3646321,
+    "ast_hash": "79d504f85a3653342315580c90492874",
+    "semantic_hash": ""
+  },
+  "src/Application/Port/BookSearchServiceInterface.php": {
+    "mtime": 1792683961.5864062,
+    "ast_hash": "25a8a0faf9eea4d154ce3761c909b73c",
+    "semantic_hash": ""
+  },
+  "src/Controller/DashboardController.php": {
+    "mtime": 1792829132.2929869,
+    "ast_hash": "81ba9a0db5eedaa8dcf0a4d4c207032b",
+    "semantic_hash": ""
+  },
+  ".opencode/agents/frontend.md": {
+    "mtime": 1792687134.0364206,
+    "ast_hash": "7c4d315c2930a67100e8c1bfa5ca1281",
+    "semantic_hash": ""
+  },
+  ".opencode/plans/dashboard-fix-plan.md": {
+    "mtime": 1792699932.490137,
+    "ast_hash": "833f5de3694f175dd9f64a29050c267e",
+    "semantic_hash": ""
+  },
+  ".opencode/skills/frontend-symfony/SKILL.md": {
+    "mtime": 1792731425.6144288,
+    "ast_hash": "3336638526a8138b463b8e81563d666a",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1792837117.481308,
+    "ast_hash": "8ff57d4043985dbb67222f8b9da672e8",
+    "semantic_hash": ""
+  },
+  "playwright.config.ts": {
+    "mtime": 1792837136.7154021,
+    "ast_hash": "8c98bca888d365925e9a106c0d93fdc3",
+    "semantic_hash": ""
+  },
+  "tests/Behat/Context/ApiContext.php": {
+    "mtime": 1792837174.9618492,
+    "ast_hash": "985db8853f61ef0e0c28e53a887a5aae",
+    "semantic_hash": ""
+  },
+  "tests/Behat/Context/BookContext.php": {
+    "mtime": 1792837189.442018,
+    "ast_hash": "5f4e553d0465e9f3779a087923082499",
+    "semantic_hash": ""
+  },
+  "tests/Behat/KernelBootTrait.php": {
+    "mtime": 1792837153.6296,
+    "ast_hash": "f58c4f80e2056a82526f3ace8e043ff2",
+    "semantic_hash": ""
+  },
+  "tests/E2E/create-edit-delete.spec.ts": {
+    "mtime": 1792837365.1100614,
+    "ast_hash": "401f2108c14b98ddbafa34f089939eb7",
+    "semantic_hash": ""
+  },
+  "tests/E2E/dashboard.spec.ts": {
+    "mtime": 1792837352.8859196,
+    "ast_hash": "c763f6fc14afa99f83a7f74009dbd4af",
+    "semantic_hash": ""
+  },
+  "tests/E2E/search.spec.ts": {
+    "mtime": 1792837380.0642347,
+    "ast_hash": "038db940763e11fae40efafac3ab4234",
+    "semantic_hash": ""
+  },
+  "tests/E2E/sse-realtime.spec.ts": {
+    "mtime": 1792837374.1591663,
+    "ast_hash": "8b031eec67a743a4b1603bc9b7264422",
+    "semantic_hash": ""
+  },
+  ".opencode/agents/planning.md": {
+    "mtime": 1792836347.906255,
+    "ast_hash": "04bfb1d710bdd37d2d69d3ae77a11602",
+    "semantic_hash": ""
+  },
+  ".opencode/plans/20261024-behat-playwright.md": {
+    "mtime": 1792836266.9923027,
+    "ast_hash": "58d5eab19764d296459f5ba39c5fbd60",
+    "semantic_hash": ""
+  },
+  "behat.yml": {
+    "mtime": 1792837130.706332,
+    "ast_hash": "32c2f566d9f9bcd29082b3c2632e27dd",
+    "semantic_hash": ""
+  },
+  "config/packages/translation.yaml": {
+    "mtime": 1792837117.4801772,
+    "ast_hash": "3de88b9017c4d8ef63106fa454fd1b7c",
+    "semantic_hash": ""
+  },
+  "obsidian-vault/050-Testing-Strategy.md": {
+    "mtime": 1792838160.490218,
+    "ast_hash": "8384aad963d81b40f47b04b5b31ece29",
     "semantic_hash": ""
   }
 }

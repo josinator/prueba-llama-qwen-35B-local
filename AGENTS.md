@@ -332,7 +332,54 @@ PUT    http://localhost:8080/api/books/{id} - Update book
 DELETE http://localhost:8080/api/books/{id} - Delete book
 ```
 
-## Project Structure
+## API Contract Verification
+
+### Dashboard API Endpoints
+
+**Stats:**
+- `GET /dashboard/api/stats` → `{ totalBooks, booksWithDescription, booksWithoutDescription, createdToday, updatedToday, authorsCount, oldestBookTitle, newestBookTitle }`
+
+**Search:**
+- `GET /dashboard/api/search?q={query}&page={int}&limit={int}` → `{ books: [{ id, title, author, description, createdAt, updatedAt }], total, page, limit, totalPages }`
+
+**Books CRUD:**
+- `POST /dashboard/api/books` → `{ id, title, author, description, createdAt, updatedAt }` (201 Created)
+- `GET /dashboard/api/books/{id}` → `{ id, title, author, description, createdAt, updatedAt }` (200 OK)
+- `PUT /dashboard/api/books/{id}` → `{ id, title, author, description, createdAt, updatedAt }` (200 OK)
+- `DELETE /dashboard/api/books/{id}` → `{ success: true }` (200 OK)
+
+**Error Responses:**
+- `400 Bad Request` — Invalid JSON body
+- `422 Unprocessable Entity` — Validation errors (missing required fields)
+- `404 Not Found` — Book ID does not exist
+
+**SSE:**
+- `GET /dashboard/sse` → Headers: `Content-Type: text/event-stream`, `Cache-Control: no-cache`, `Connection: keep-alive`
+
+### Mandatory Checklist for Frontend Work
+
+Before working with any API endpoint, the frontend agent MUST verify:
+
+1. **Endpoint URL** — Confirm exact path matches backend route
+2. **HTTP Method** — Verify correct method (GET/POST/PUT/DELETE)
+3. **Request Parameters** — Check query params, body fields, and types
+4. **Response Structure** — Verify all expected keys exist in response
+5. **Response Types** — Confirm field types match (string, int, array, etc.)
+6. **Status Codes** — Verify success and error status codes
+7. **Error Format** — Check error response structure for proper handling
+
+**Never assume API contract.** Always read the controller or run integration tests to verify.
+
+### Integration Test Reference
+
+Integration tests for API contracts are in `tests/Integration/`. Run with:
+```bash
+make test -- tests/Integration/
+```
+
+These tests verify the full request/response cycle against a real test database.
+
+### Project Structure
 
 ```
 src/
@@ -344,7 +391,9 @@ src/
 
 tests/
 ├── Application/         # Service and DTO tests
-└── Infrastructure/      # Repository integration tests
+├── Infrastructure/      # Repository integration tests
+├── Integration/         # API contract integration tests
+└── E2E/                 # End-to-end HTTP tests
 
 obsidian-vault/          # Project knowledge base
 graphify-out/            # Knowledge graph (auto-generated)
@@ -375,6 +424,30 @@ graphify-out/            # Knowledge graph (auto-generated)
 ```bash
 git commit --no-verify -m "message"
 ```
+
+## Context Management — Multi-Phase Plans
+
+El servidor LLM tiene un limite de contexto de 131072 tokens. Cuando un plan de ejecucion tiene multiples fases/puntos, el contexto se acumula y puede agotarse, provocando que el servidor deje de trabajar a mitad de la ejecucion (mensaje: `stop processing: n_tokens = 65535`).
+
+### Reglas de gestion de contexto
+
+1. **Planificar con conciencia del contexto**: Al crear planes multi-fase, estimar el consumo de tokens. Fases que lean archivos grandes o generen codigo extenso consumen mucho contexto.
+
+2. **Liberar contexto entre fases**: Al completar una fase y antes de comenzar la siguiente:
+   - NO referenciar codigo de fases anteriores que ya se modifico
+   - NO volver a leer archivos que ya se modificaron en fases previas
+   - NO re-explicar el contexto ya establecido
+   - Si es posible, reiniciar la conversacion (nuevo mensaje que no hereda historial)
+
+3. **Estructura de planes optimizados**:
+   - Fase 1: Analisis y plan detallado (consume contexto inicial)
+   - Fase 2: Implementacion (referenciar Fase 1 brevemente, NO repetir analisis)
+   - Fase 3: Testing/calidad (NO re-leer archivos de implementacion, confiar en Fase 2)
+   - Cada fase debe ser autonomanente ejecutable sin depender del historial completo
+
+4. **Señal de agotamiento**: Si ves `stop processing: n_tokens` en el log de llama.cpp, el contexto se lleno. Detener trabajo y reiniciar con un plan mas pequeno o contexto limpio.
+
+5. **Archivos grandes**: Cuando un plan requiere trabajar con archivos grandes, preferir operaciones especificas (buscar/crear/modificar puntos concretos) en lugar de leer y re-escribir archivos completos.
 
 ## Observations
 

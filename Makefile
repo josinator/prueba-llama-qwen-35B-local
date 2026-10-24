@@ -3,7 +3,7 @@
 # Stack: PHP 8.3 + MariaDB 10 + Nginx
 # ============================================
 
-.PHONY: help up down restart build clean logs composer vendor test db-migrate db-reset db-dump dev shell symfony php assets init-project graphify-update graphify-query graphify-path graphify-explain graphify-god-nodes graphify-affected graphify-report
+.PHONY: help up down restart build clean logs composer vendor test db-migrate db-reset db-dump dev shell symfony php assets init-project graphify-update graphify-query graphify-path graphify-explain graphify-god-nodes graphify-affected graphify-report fix-permissions behat playwright test-all pre-commit
 
 .DEFAULT_GOAL := help
 
@@ -19,6 +19,7 @@ help: ## Muestra esta ayuda
 	@echo "  make restart         - Reinicia todo"
 	@echo "  make build           - Reconstruye imagenes Docker"
 	@echo "  make clean           - Elimina contenedores y volumes"
+	@echo "  make fix-permissions - Corrige permisos de archivos (uid=1000)"
 	@echo "  make logs            - Logs de todos los servicios"
 	@echo ""
 	@echo "━━━ Desarrollo ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -38,6 +39,19 @@ help: ## Muestra esta ayuda
 	@echo "  GET    http://localhost:8080/api/books/{id} - Mostrar libro"
 	@echo "  POST   http://localhost:8080/api/books      - Crear libro"
 	@echo "  PUT    http://localhost:8080/api/books/{id} - Actualizar libro"
+	@echo ""
+	@echo "━━━ Tests ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  make test        - PHPUnit (unit tests)"
+	@echo "  make behat       - Behat (API BDD tests)"
+	@echo "  make playwright  - Playwright (E2E tests)"
+	@echo "  make test-all    - PHPUnit + Behat + Playwright"
+	@echo ""
+	@echo "━━━ Calidad de Código ━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  make phpstan           - Análisis estático (PHPStan Level 7)"
+	@echo "  make cs-fixer          - Corrige estilo automáticamente"
+	@echo "  make cs-fixer-dry      - Verifica estilo sin corregir"
+	@echo "  make quality           - PHPStan + CS-Fixer (dry-run)"
+	@echo "  make pre-commit        - Ejecuta hook pre-commit completo"
 	@echo ""
 	@echo "━━━ Graphify ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "  make graphify-update      - Actualizar grafo de conocimiento"
@@ -120,8 +134,19 @@ db-dump: ## Exporta la base de datos a archivo SQL
 	@echo "Backup guardado en ./dumps/"
 
 # --- Test ---
-test: ## Ejecuta las pruebas unitarias
+test: ## Ejecuta las pruebas unitarias (PHPUnit)
 	docker compose exec $(PHP_SERVICE) php bin/phpunit --configuration phpunit.xml.dist
+
+behat: ## Ejecuta Behat (API BDD tests)
+	docker compose exec $(PHP_SERVICE) php ./vendor/bin/behat --colors --strict
+
+playwright: ## Ejecuta Playwright (E2E tests)
+	npx playwright test
+
+test-all: ## Ejecuta PHPUnit + Behat + Playwright
+	$(MAKE) test
+	$(MAKE) behat
+	$(MAKE) playwright
 
 # --- Code Quality ---
 phpstan: ## Ejecutar PHPStan (análisis estático)
@@ -173,3 +198,21 @@ graphify-affected: ## Ver archivos afectados: make graphify-affected "archivo.ph
 
 graphify-report: ## Mostrar reporte del grafo
 	cat graphify-out/GRAPH_REPORT.md
+
+# --- Pre-commit Hook ---
+pre-commit: ## Ejecuta hook pre-commit (PHP-CS-Fixer + PHPStan) con salida clara
+	@echo ""
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  Ejecutando Pre-commit Hook"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo ""
+	@# Run the actual pre-commit hook script
+	@.git/hooks/pre-commit
+	@echo ""
+
+# --- Permissions ---
+fix-permissions: ## Corrige permisos de archivos creados por Docker (uid/gid 1000)
+	@echo "Corrigiendo permisos de archivos..."
+	@chown -R 1000:1000 /app/public/js /app/public/styles /app/bin /app/templates 2>/dev/null || true
+	@sudo chown -R josinator:josinator public/js public/styles bin templates bin/console bin/phpunit .env.test symfony.lock .env.dev .php-cs-fixer.dist.php src/Entity/.gitignore src/Repository/.gitignore src/Controller/.gitignore config/routes config/packages config/preload.php composer.lock compose.override.yaml 2>/dev/null || true
+	@echo "Permisos corregidos."

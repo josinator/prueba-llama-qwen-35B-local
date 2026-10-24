@@ -3,13 +3,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        HOST_UID: 1000
+        HOST_GID: 1000
     container_name: books_api_app
     restart: unless-stopped
     working_dir: /app
     volumes:
       - .:/app
-      - /app/vendor
-      - /app/node_modules
+      - ./vendor:/app/vendor
+      - ./node_modules:/app/node_modules
     environment:
       DATABASE_URL: "mysql://symfony:symfony@database:3306/books?serverVersion=mariadb-10.11.16&charset=utf8mb4"
       APP_ENV: dev

@@ -5,7 +5,7 @@
             colors="true"
             failOnRisky="false"
             failOnWarning="false"
-            processIsolation="true"
+             processIsolation="false"
             stderr="true"
             beStrictAboutOutputDuringTests="false"
 >

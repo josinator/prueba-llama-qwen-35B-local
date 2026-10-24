@@ -19,3 +19,7 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 .phpunit.result.cache
+
+###> npm ###
+/node_modules/
+###< npm ###

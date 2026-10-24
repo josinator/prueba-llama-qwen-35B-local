@@ -337,7 +337,7 @@ assets/vite.config.js      # Configuración de Vite
                     try {
                         const res = await fetch(url, {
                             method,
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: { 'Content-Type' => 'application/json' },
                             body: JSON.stringify(formData)
                         });
                         const data = await res.json();
@@ -1141,3 +1141,114 @@ function escapeHtml(str) {
 }
 
 // En Alpine.js, usar x-text (auto-escapes) en lugar de {
+
+
+## API Contract Verification
+
+**CRITICAL:** Before implementing any frontend feature that interacts with the API:
+
+1. **Verify endpoint exists** - Check  to confirm the route exists
+2. **Check HTTP method** - Verify the method (GET, POST, PUT, DELETE) matches
+3. **Check parameters** - Verify query parameters and body format
+4. **Check response format** - Verify the JSON structure matches what the frontend expects
+5. **Write integration tests** - Create tests that verify the API response format
+6. **Write E2E tests** - Create tests that verify the full-stack functionality
+
+**Common mistakes to avoid:**
+- Using wrong endpoint (e.g.,  vs )
+- Using wrong parameter name (e.g.,  vs )
+- Expecting wrong response field (e.g.,  vs )
+- Missing pagination fields (e.g.,  vs )
+
+**Verification checklist:**
+- [ ] Route exists in 
+- [ ] HTTP method matches
+- [ ] Parameters match
+- [ ] Response format matches
+- [ ] Integration tests pass
+- [ ] E2E tests pass
+
+**Example: Verifying dashboard search API**
+
+{"books":[{"id":"F090B72FDE7E201F9698BE36E6596C4A","title":"Test Validación Symfony b14bf4272718d2b9","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T18:19:00+00:00","updatedAt":"2026-10-21T18:19:00+00:00"},{"id":"2F4D88E9FCFC4851C3AB735DB64B285C","title":"Test Validación Symfony 63ca31067fc9a98d","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T17:03:27+00:00","updatedAt":"2026-10-21T17:03:27+00:00"},{"id":"5A70C3723AAF6DA765EA14D99283D04E","title":"Test Validación Symfony c2fd33d8424cf5fc","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T17:01:21+00:00","updatedAt":"2026-10-21T17:01:21+00:00"},{"id":"205E89A019DAAF48E43B07D33423B5D1","title":"Test Validación Symfony 1f63069dcc53f3ab","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T17:00:32+00:00","updatedAt":"2026-10-21T17:00:32+00:00"},{"id":"7DC2E4289041EEB29DABD4824B53EC77","title":"Test Validación Symfony 8c4c348e3fccc983","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:59:28+00:00","updatedAt":"2026-10-21T16:59:28+00:00"},{"id":"5949D5CE894A372BFF150AD907858882","title":"Test Validación Symfony a1165b7b1a84b0e2","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:57:48+00:00","updatedAt":"2026-10-21T16:57:48+00:00"},{"id":"5FA783D7BC34329D68B1335169666250","title":"Test Validación Symfony 3fbe96b3a79f2992","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:57:36+00:00","updatedAt":"2026-10-21T16:57:36+00:00"},{"id":"D9FEE4055B126AE2811A48ED26D35BD3","title":"Test Validación Symfony 52e109f92249dfdf","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:55:43+00:00","updatedAt":"2026-10-21T16:55:43+00:00"},{"id":"162EA668F59353D9782FEE012966D094","title":"Test Validación Symfony 1d861b60f077da8e","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:54:21+00:00","updatedAt":"2026-10-21T16:54:21+00:00"},{"id":"246FA63AFD0231E4131DC5794D22EB34","title":"Test Validación Symfony aeba05b0f4bca553","author":"Autor de Prueba Funcional","description":"Libro creado mediante tests funcionales con validación completa.","createdAt":"2026-10-21T16:51:28+00:00","updatedAt":"2026-10-21T16:51:28+00:00"}],"total":10,"page":1,"limit":20,"totalPages":1}
+
+**Integration test verification:**
+
+
+
+
+## API Contract Verification
+
+**CRITICAL:** Before implementing any frontend feature that interacts with the API:
+
+1. **Verify endpoint exists** - Check `debug:router` to confirm the route exists
+2. **Check HTTP method** - Verify the method (GET, POST, PUT, DELETE) matches
+3. **Check parameters** - Verify query parameters and body format
+4. **Check response format** - Verify the JSON structure matches what the frontend expects
+5. **Write integration tests** - Create tests that verify the API response format
+6. **Write E2E tests** - Create tests that verify the full-stack functionality
+
+**Common mistakes to avoid:**
+- Using wrong endpoint (e.g., `/api/books` vs `/dashboard/api/books`)
+- Using wrong parameter name (e.g., `search` vs `q`)
+- Expecting wrong response field (e.g., `items` vs `books`)
+- Missing pagination fields (e.g., `currentPage` vs `page`)
+
+**Verification checklist:**
+- [ ] Route exists in `debug:router`
+- [ ] HTTP method matches
+- [ ] Parameters match
+- [ ] Response format matches
+- [ ] Integration tests pass
+- [ ] E2E tests pass
+
+**Example: Verifying dashboard search API**
+
+```bash
+# 1. Check route exists
+bin/console debug:router app_dashboard_api_search
+
+# Expected output:
+# app_dashboard_api_search  GET  /dashboard/api/search
+
+# 2. Test endpoint manually
+curl "http://localhost:8080/dashboard/api/search?q=test&page=1&limit=20"
+
+# Expected response format:
+# {
+#     "books": [...],
+#     "total": 10,
+#     "page": 1,
+#     "limit": 20,
+#     "totalPages": 1
+# }
+
+# 3. Verify JavaScript uses matching fields
+# In assets/js/app.js:
+# this.books = data.books || [];      // matches 'books' field
+# this.currentPage = data.page || 1;  // matches 'page' field
+# this.totalPages = data.totalPages;  // matches 'totalPages' field
+```
+
+**Integration test verification:**
+
+```php
+<?php
+// tests/Integration/DashboardControllerTest.php
+#[Test]
+public function searchEndpointReturnsCorrectFormat(): void
+{
+    $client = static::createClient();
+    $client->request('GET', '/dashboard/api/search?q=test&page=1&limit=20');
+
+    $this->assertResponseIsSuccessful();
+    $data = json_decode($client->getResponse()->getContent(), true);
+
+    // Verify all expected fields exist
+    $this->assertArrayHasKey('books', $data);
+    $this->assertArrayHasKey('total', $data);
+    $this->assertArrayHasKey('page', $data);
+    $this->assertArrayHasKey('limit', $data);
+    $this->assertArrayHasKey('totalPages', $data);
+}
+```

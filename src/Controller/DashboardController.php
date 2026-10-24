@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Application\BookApplicationServiceInterface;
 use App\Application\BookStatisticsServiceInterface;
-use App\Application\DTO\CreateBookDTO;
 use App\Application\DTO\SearchBooksDTO;
 use App\Application\DTO\UpdateBookDTO;
 use App\Application\Port\BookChangeTrackerInterface;
@@ -76,34 +75,17 @@ final class DashboardController extends AbstractController
     #[Route('/api/books', name: 'api_create', methods: ['POST'])]
     public function createBook(Request $request): JsonResponse
     {
+        error_log('DEBUG createBook ENTERED');
+        $content = $request->getContent();
+        error_log('DEBUG createBook Content: ' . $content);
         try {
-            $data = json_decode($request->getContent(), flags: JSON_THROW_ON_ERROR);
+            $data = json_decode($content, flags: JSON_THROW_ON_ERROR);
+            error_log('DEBUG createBook Decode success');
+            // DEBUG: Return immediately to verify this code path
+            return new JsonResponse(['debug' => 'OK', 'data' => $data]);
         } catch (\JsonException $e) {
+            error_log('DEBUG createBook Decode failed: ' . $e->getMessage());
             return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!is_array($data)) {
-            return $this->json(['error' => 'Invalid JSON body'], Response::HTTP_BAD_REQUEST);
-        }
-
-        $dto = CreateBookDTO::fromArray($data);
-        $validationErrors = $dto->validate();
-        if ($validationErrors) {
-            $violations = [];
-            foreach ($validationErrors as $field => $messages) {
-                $violations[] = [
-                    'field' => $field,
-                    'message' => $messages[0],
-                ];
-            }
-            return $this->json(['violations' => $violations], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        try {
-            $book = $this->bookService->createBook($dto);
-            return $this->json($this->serializeBook($book), Response::HTTP_CREATED);
-        } catch (\DomainException $e) {
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
         }
     }
 

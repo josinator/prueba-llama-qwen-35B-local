@@ -22,7 +22,7 @@ Graphify está instalado como herramienta global via `uv`:
 
 ```bash
 # Instalación (ya realizada)
-uv tool install "graphifyy[mcp]==0.9.32"
+uv tool install "graphify[mcp]==0.9.32"
 ```
 
 Se encuentra en `~/.local/bin/graphify`.
@@ -37,7 +37,7 @@ Se encuentra en `~/.local/bin/graphify`.
 
 ```
 graphify-out/
-├── graph.json           # Grafo principal (262 nodos, 371 edges)
+├── graph.json           # Grafo principal (262+ nodos, 371+ edges)
 ├── GRAPH_REPORT.md      # Reporte de comunidades y arquitectura
 ├── graph.html           # Visualización interactiva
 ├── manifest.json        # Manifiesto de archivos analizados

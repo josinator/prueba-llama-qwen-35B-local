@@ -44,5 +44,5 @@ make quality      # PHPStan + CS-Fixer
 
 ## Docker
 
-- **PHP:** Actualizado a 8.3.24 (parches de seguridad)
-- **Imagen:** `php:8.3.24-fpm`
+- **PHP:** 8.3.36 (parche de seguridad emergency)
+- **Imagen:** `php:8.3.36-fpm`

@@ -1,0 +1,7 @@
+behat:
+  suites:
+    api:
+      paths: [features/api]
+      contexts:
+        - App\Tests\Behat\Context\ApiContext
+        - App\Tests\Behat\Context\BookContext

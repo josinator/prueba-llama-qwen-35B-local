@@ -1,0 +1,26 @@
+{
+  "name": "prueba_llama_qwe",
+  "version": "1.0.0",
+  "description": "API REST para gestión de libros construida con **Symfony 7.4** usando Docker Compose.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josinator/prueba-llama-qwen-35B-local.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josinator/prueba-llama-qwen-35B-local/issues"
+  },
+  "homepage": "https://github.com/josinator/prueba-llama-qwen-35B-local#readme"
+}

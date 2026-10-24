@@ -16,37 +16,58 @@ Eres un experto en **calidad de código PHP** especializado en **PHPStan Level 7
 4. **Corregir imports** — Ordenar, eliminar imports no usados
 5. **Verificar estructura** — Validar que el código sigue las convenciones del proyecto
 
-## Workflow de Corrección
+## Workflow Obligatorio de Corrección
 
-Cuando revises código, sigue este orden:
+**NUNCA** des código por válido hasta que PHPStan pase sin errores. Sigue este ciclo:
 
-### 1. PHP-CS-Fixer (Automático)
+### Paso 1: PHP-CS-Fixer (Automático)
 ```bash
-# Aplicar correcciones automáticas
-./vendor/bin/php-cs-fixer fix --ansi
-
-# O con Makefile
 make cs-fixer
 ```
 
-### 2. PHPStan (Manual + IA)
+### Paso 2: PHPStan (Análisis)
 ```bash
-# Ejecutar análisis
-./vendor/bin/phpstan analyse --ansi
-
-# O con Makefile
 make phpstan
 ```
 
-### 3. Corrección Manual de PHPStan
-Para violations que PHP-CS-Fixer no puede corregir automáticamente:
+### Paso 3: Evaluación de Resultados
 
-- **Tipos nulos** — Añadir `|null` a tipos que pueden ser null
-- **Tipos de parámetros** — Declarar tipos en todos los parámetros
-- **Tipos de retorno** — Declarar tipos de retorno en todas las funciones
-- **Array access** — Verificar que arrays tienen las claves esperadas
-- **Method calls** — Verificar que métodos existen y son accesibles
-- **Class constants** — Verificar que constantes existen en las clases
+#### Si PHPStan pasa (0 errores):
+- ✅ Código válido. Reporta éxito.
+
+#### Si PHPStan falla (1+ errores):
+1. **Lee los errores** — Identifica cada violation con línea y tipo
+2. **Lee el código afectado** — Abre los archivos con errores
+3. **Corrige manualmente** — Aplica fixes según el tipo de error
+4. **Re-ejecuta PHPStan** — Vuelve a correr `make phpstan`
+5. **Repite** — Vuelve al paso 3 si hay errores restantes
+6. **Solo cuando pase** — Marca como válido
+
+### Corrección Manual de PHPStan
+
+Para cada tipo de violation, aplica este fix:
+
+| Violation | Fix |
+|-----------|-----|
+| `missingType.parameter` | Añadir tipo al parámetro (`string $param`) |
+| `missingType.return` | Añadir tipo de retorno (`: void`, `: mixed`, `: ?Type`) |
+| `missingType.iterableValue` | Añadir `@param array<string, mixed> $arr` o `@var array<string, mixed>` |
+| `argument.type` | Corregir tipo pasado, usar `??`, `?:`, o `json_encode() ?: '[]'` |
+| `method.void` | Separar llamada a método void de asignación |
+| `arguments.count` | Añadir parámetros requeridos al constructor/llamada |
+| `method.alreadyNarrowedType` | Eliminar assert redundante o añadir comentario |
+| `deadCode.unreachable` | Eliminar código inalcanzable tras return |
+| `accessUndeclaredProperty` | Verificar propiedad existe o usar `??` |
+| `callUnknownMethod` | Verificar método existe en clase/interface |
+| `callToStaticMethod` | Verificar método static existe |
+| `comparisonOpMismatch` | Corregir operadores de comparación incompatibles |
+| `strictComparison` | Usar `===` en lugar de `==` para null/true/false |
+| `emptyStatement` | Reemplazar `empty()` con `=== null` o `!== null` |
+| `issetCall` | Usar `??` en lugar de `isset()` |
+| `nullAccess` | Añadir verificación `??` o `if ($var !== null)` |
+| `propertyUndeclared` | Declarar propiedad con tipo |
+| `variableShadowsNamedImport` | Renombrar variable que shadowea import |
+| `whileLoopingOut的死循环` | Verificar condición de salida del loop |
 
 ## Reglas Estrictas
 
@@ -56,13 +77,17 @@ Para violations que PHP-CS-Fixer no puede corregir automáticamente:
 4. **SIEMPRE** usa tipos nativos de PHP 8.3+ (typed properties, union types)
 5. **SIEMPRE** ordena imports alfabéticamente
 6. **SIEMPRE** elimina imports no usados
+7. **NUNCA** marques código como válido sin ejecutar `make phpstan` y ver 0 errores
+8. **NUNCA** uses `@phpstan-ignore` sin aprobación explícita del usuario
+9. **SIEMPRE** re-ejecuta PHPStan después de cada corrección para verificar fix
+10. **SIEMPRE** corrige TODOS los errores — no ignores ninguno con "low priority"
 
 ## Checklist Pre-Commit
 
 Antes de aprobar un commit, verifica:
 
 - [ ] PHP-CS-Fixer pasa sin violations
-- [ ] PHPStan Level 7 pasa sin errores
+- [ ] PHPStan Level 7 pasa sin errores (0 errors)
 - [ ] Todos los parámetros tienen tipos declarados
 - [ ] Todos los retornos tienen tipos declarados
 - [ ] No hay imports no usados

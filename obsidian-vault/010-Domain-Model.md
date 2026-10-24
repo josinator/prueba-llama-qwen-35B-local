@@ -7,9 +7,12 @@ tags: [domain, entity, value-object]
 
 ## Entidades
 
-### Book
+### Book (Dominio)
 ```
-Book
+src/Domain/Entity/Book.php
+```
+```
+Book (Domain Entity)
 ├── uuid: string (UUID primary key)
 ├── titleHash: string (MD5 index)
 ├── title: string
@@ -27,9 +30,18 @@ Book
 - createdAt se establece al crear
 - updatedAt se actualiza en cada cambio
 
-## Value Objects (Por Implementar)
+### Book (Infrastructure Entity)
+```
+src/Infrastructure/Entity/Book.php
+```
+Entidad Doctrine ORM que mapea la tabla de base de datos. Separa las anotaciones/atributos ORM de la lógica de dominio.
+
+## Value Objects
 
 ### Title
+```
+src/Domain/ValueObject/Title.php
+```
 ```
 Title
 ├── value: string
@@ -38,18 +50,31 @@ Title
 **Invariants:**
 - No vacío
 - Máximo 255 caracteres
+- Normalizado (trim + minúsculas para hash)
 
-### ISBN
+## Domain Events
+
+### BookCreatedEvent
 ```
-ISBN
-├── value: string
-└── normalize(): string
+src/Domain/DomainEvent/BookCreatedEvent.php
 ```
-**Invariants:**
-- Formato ISBN-10 o ISBN-13 válido
+Se dispara cuando se crea un nuevo libro. Contiene el UUID del libro y el timestamp.
+
+### BookUpdatedEvent
+```
+src/Domain/DomainEvent/BookUpdatedEvent.php
+```
+Se dispara cuando se actualiza un libro existente. Contiene el UUID del libro y el timestamp.
+
+### DomainEventListener
+```
+src/Infrastructure/EventListener/DomainEventListener.php
+```
+Adapter que escucha los Domain Events y ejecuta acciones en infraestructura (logs, notificaciones, etc.).
 
 ## Relaciones
 ```
 Book 1..1 → Title (Value Object)
-Book 1..1 → Author (Value Object - future)
+Book 1..* → BookCreatedEvent (Domain Event - on create)
+Book 1..* → BookUpdatedEvent (Domain Event - on update)
 ```
